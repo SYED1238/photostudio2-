@@ -272,24 +272,26 @@
   color: var(--color-ink-primary);
 }
 
-/* Category Filter Ribbons */
+/* Media Type Filter Ribbons (Images & Videos Only) */
 .gallery-filter-ribbons {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 14px;
   justify-content: center;
+  align-items: center;
 }
 
 .archive-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   background: rgba(245, 235, 222, 0.65);
   border: 1px solid rgba(190, 160, 130, 0.4);
   border-radius: 9999px;
-  padding: 7px 16px;
+  padding: 8px 24px;
   font-family: var(--font-editorial);
-  font-size: 16px;
+  font-size: 17px;
+  letter-spacing: 0.02em;
   color: var(--color-ink-secondary);
   cursor: pointer;
   transition: all 0.25s ease;
@@ -877,30 +879,24 @@
     justify-content: center;
   }
 
-  /* Horizontal Touch-Swipeable Filter Bar (Native App Style) */
+  /* Centered Dual Filter Bar (Images & Videos) */
   .gallery-filter-ribbons {
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    justify-content: flex-start;
-    padding: 6px 4px 10px 4px;
-    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0 8px 0;
+    gap: 12px;
     width: 100%;
-    scroll-snap-type: x proximity;
-  }
-
-  .gallery-filter-ribbons::-webkit-scrollbar {
-    display: none;
   }
 
   .archive-pill {
-    flex-shrink: 0;
-    scroll-snap-align: start;
+    flex: 1 1 130px;
+    max-width: 170px;
+    justify-content: center;
     white-space: nowrap;
-    padding: 8px 16px;
-    font-size: 14.5px;
+    padding: 10px 18px;
+    font-size: 15px;
     min-height: 44px;
     border-radius: 9999px;
   }

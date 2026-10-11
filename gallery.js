@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // State
   let allArtifacts = [];
   let filteredArtifacts = [];
-  let currentActiveFilter = "all";
+  let currentActiveFilter = "image";
   let currentSearchQuery = "";
   let currentLightboxIndex = 0;
 
@@ -470,24 +470,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateFilterCounts() {
-    const counts = { all: allArtifacts.length, couples: 0, architecture: 0, coastal: 0, intimate: 0, motion: 0 };
+    let imageCount = 0;
+    let videoCount = 0;
     allArtifacts.forEach((a) => {
-      if (counts[a.category] !== undefined) counts[a.category]++;
+      if (a.isVideo) {
+        videoCount++;
+      } else {
+        imageCount++;
+      }
     });
 
-    const elAll = document.getElementById("countAll");
-    const elMeadows = document.getElementById("countMeadows");
-    const elArch = document.getElementById("countArchitecture");
-    const elCoast = document.getElementById("countCoastal");
-    const elIntimate = document.getElementById("countIntimate");
-    const elMotion = document.getElementById("countMotion");
+    const elImages = document.getElementById("countImages");
+    const elVideos = document.getElementById("countVideos");
 
-    if (elAll) elAll.textContent = counts.all;
-    if (elMeadows) elMeadows.textContent = counts.couples;
-    if (elArch) elArch.textContent = counts.architecture;
-    if (elCoast) elCoast.textContent = counts.coastal;
-    if (elIntimate) elIntimate.textContent = counts.intimate;
-    if (elMotion) elMotion.textContent = counts.motion;
+    if (elImages) elImages.textContent = imageCount;
+    if (elVideos) elVideos.textContent = videoCount;
   }
 
   /* ==========================================================================
@@ -530,16 +527,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function filterAndRenderArtifacts() {
     filteredArtifacts = allArtifacts.filter((item) => {
-      // Category check
+      // Media type check (Image vs Video)
       const matchesCategory =
-        currentActiveFilter === "all" || item.category === currentActiveFilter;
+        currentActiveFilter === "video" ? Boolean(item.isVideo) : !item.isVideo;
 
       // Search keyword check
       const matchesSearch =
         !currentSearchQuery ||
-        item.title.toLowerCase().includes(currentSearchQuery) ||
-        item.name.toLowerCase().includes(currentSearchQuery) ||
-        item.category.toLowerCase().includes(currentSearchQuery);
+        (item.title && item.title.toLowerCase().includes(currentSearchQuery)) ||
+        (item.name && item.name.toLowerCase().includes(currentSearchQuery)) ||
+        (item.category && item.category.toLowerCase().includes(currentSearchQuery));
 
       return matchesCategory && matchesSearch;
     });
@@ -756,10 +753,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (searchInput) searchInput.value = "";
       currentSearchQuery = "";
       if (btnClearSearch) btnClearSearch.style.display = "none";
-      currentActiveFilter = "all";
+      currentActiveFilter = "image";
       filterPills.forEach((p) => p.classList.remove("active"));
-      const allPill = document.querySelector('.archive-pill[data-filter="all"]');
-      if (allPill) allPill.classList.add("active");
+      const imagePill = document.querySelector('.archive-pill[data-filter="image"]');
+      if (imagePill) imagePill.classList.add("active");
       filterAndRenderArtifacts();
     });
   }
