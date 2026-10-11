@@ -586,26 +586,11 @@ document.addEventListener("DOMContentLoaded", () => {
           <span class="media-res-badge">${item.ratioLabel ? `${item.ratioLabel}` : item.specs}</span>
         </div>
 
-        <!-- Card Body -->
+        <!-- Minimal 1-Line Card Footer -->
         <div class="media-card-body">
-          <h3 class="media-clean-title">${item.title}</h3>
-          
-          <div class="media-meta-specs">
-            <span>${item.date}</span>
-            <span class="meta-spec-dot">&bull;</span>
-            <span>${item.size}</span>
-            ${item.width && item.height ? `<span class="meta-spec-dot">&bull;</span><span>${item.width}×${item.height}</span>` : ""}
-          </div>
-
-          <div class="media-card-actions">
-            <button class="btn-inspect-frame" data-action="inspect" data-index="${originalIndex}">
-              <span>Inspect Frame</span>
-              <span>→</span>
-            </button>
-
-            <a href="${item.downloadUrl}" target="_blank" rel="noopener noreferrer" class="btn-download-quick" title="Download original master negative" onclick="event.stopPropagation();">
-              <span>Download ⤓</span>
-            </a>
+          <div class="media-single-line">
+            <span class="media-single-title" title="${item.title}">${item.title}</span>
+            <span class="media-single-arrow" aria-hidden="true">→</span>
           </div>
         </div>
       </article>
