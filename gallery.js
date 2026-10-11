@@ -1082,7 +1082,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Back to top buttons (Footer and Floating Dock)
   const btnBackToTop = document.getElementById("btnBackToTop");
-  const btnFloatingTop = document.getElementById("btnFloatingTop");
 
   if (btnBackToTop) {
     btnBackToTop.addEventListener("click", () => {
