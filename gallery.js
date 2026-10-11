@@ -370,8 +370,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 1. Instant Static Manifest Load (Zero Latency, No API Key Exposed)
     if (!forceLive) {
       try {
-        const res = await fetch("assets/gallery-media.json");
-        if (res.ok) {
+        let res = await fetch("assets/gallery-media.json").catch(() => null);
+        if (!res || !res.ok) res = await fetch("/assets/gallery-media.json").catch(() => null);
+        if (res && res.ok) {
           const manifestData = await res.json();
           handleArtifactsLoaded(manifestData);
           if (btnRefresh) btnRefresh.classList.remove("rotating");
@@ -432,8 +433,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.warn("Live stream query error, using local manifest:", err);
       try {
-        const res = await fetch("assets/gallery-media.json");
-        if (res.ok) {
+        let res = await fetch("assets/gallery-media.json").catch(() => null);
+        if (!res || !res.ok) res = await fetch("/assets/gallery-media.json").catch(() => null);
+        if (res && res.ok) {
           const manifestData = await res.json();
           handleArtifactsLoaded(manifestData);
           return;

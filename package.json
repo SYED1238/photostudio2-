@@ -2,10 +2,7 @@
   "name": "lumina-boutique-photo-studio",
   "version": "1.0.0",
   "description": "Lumina Studio - Boutique Photo Studio Landing Page",
-  "main": "index.html",
   "scripts": {
-    "build": "echo 'Static build ready'",
-    "start": "node server.js",
     "dev": "node server.js"
   },
   "keywords": [
