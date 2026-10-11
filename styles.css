@@ -1462,6 +1462,8 @@ body::before {
   margin-top: clamp(64px, 7.5vw, 120px);
   padding-top: 24px;
   z-index: 10;
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
 }
 
 .section-scrapbook-header {
@@ -2555,6 +2557,46 @@ body::before {
     flex-direction: column;
     text-align: center;
     gap: 12px;
+  }
+
+  /* Modals on Mobile */
+  .lumina-modal-overlay {
+    padding: 10px;
+  }
+
+  .modal-card-frame {
+    max-height: 92dvh;
+    max-height: 92vh;
+    padding: 24px 16px 20px 16px;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+  }
+
+  .modal-close-btn {
+    top: 10px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  /* Form Elements Font Size & Touch Ergonomics (iOS Zoom Prevention) */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  .form-control,
+  .form-input,
+  .form-select,
+  .form-textarea {
+    font-size: 16px !important;
+  }
+
+  .booking-modal-form button[type="submit"],
+  .inpage-booking-form button[type="submit"] {
+    min-height: 44px;
   }
 }
 

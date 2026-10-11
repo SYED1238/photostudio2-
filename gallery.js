@@ -136,12 +136,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================================
-     2. Golden Stardust & Particle Canvas
+     2. Golden Stardust & Particle Canvas (Low-RAM & Mobile Optimized)
      ========================================================================== */
   const canvas = document.getElementById("stardustCanvas");
   let ctx = canvas ? canvas.getContext("2d") : null;
   let width = (canvas ? (canvas.width = window.innerWidth) : 0);
   let height = (canvas ? (canvas.height = window.innerHeight) : 0);
+
+  const isLowMemoryMobile =
+    window.innerWidth <= 768 ||
+    (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+    (navigator.deviceMemory && navigator.deviceMemory <= 4);
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   window.addEventListener("resize", () => {
     if (!canvas) return;
@@ -150,11 +157,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const ambientMotes = [];
-  for (let i = 0; i < 35; i++) {
+  const MOTE_COUNT = prefersReducedMotion ? 0 : (isLowMemoryMobile ? 10 : 32);
+  for (let i = 0; i < MOTE_COUNT; i++) {
     ambientMotes.push({
       x: Math.random() * (width || 1200),
       y: Math.random() * (height || 800),
-      size: Math.random() * 2 + 0.8,
+      size: Math.random() * (isLowMemoryMobile ? 1.6 : 2) + 0.8,
       speedX: (Math.random() - 0.5) * 0.35,
       speedY: -Math.random() * 0.35 - 0.1,
       opacity: Math.random() * 0.5 + 0.2,
@@ -163,23 +171,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const cursorSparks = [];
-  window.addEventListener("mousemove", (e) => {
-    if (Math.random() < 0.6) {
-      cursorSparks.push({
-        x: e.clientX,
-        y: e.clientY,
-        vx: (Math.random() - 0.5) * 1.2,
-        vy: (Math.random() - 0.5) * 1.2 - 0.2,
-        size: Math.random() * 2.4 + 1.2,
-        alpha: 1,
-        decay: Math.random() * 0.02 + 0.015,
-        color: Math.random() > 0.4 ? "#f5dfba" : "#cfa365",
-      });
-    }
-  });
+  if (!isLowMemoryMobile && !prefersReducedMotion) {
+    window.addEventListener("mousemove", (e) => {
+      if (Math.random() < 0.55 && cursorSparks.length < 24) {
+        cursorSparks.push({
+          x: e.clientX,
+          y: e.clientY,
+          vx: (Math.random() - 0.5) * 1.2,
+          vy: (Math.random() - 0.5) * 1.2 - 0.2,
+          size: Math.random() * 2.4 + 1.2,
+          alpha: 1,
+          decay: Math.random() * 0.02 + 0.015,
+          color: Math.random() > 0.4 ? "#f5dfba" : "#cfa365",
+        });
+      }
+    });
+  }
+
+  let canvasAnimationId = null;
+  let isCanvasRendering = true;
 
   function animateCanvas() {
-    if (!ctx) return;
+    if (!ctx || !isCanvasRendering || prefersReducedMotion) return;
     ctx.clearRect(0, 0, width, height);
 
     // Drifting dust motes
@@ -197,13 +210,15 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.beginPath();
       ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(225, 190, 135, ${currentAlpha})`;
-      ctx.shadowColor = "rgba(240, 210, 160, 0.5)";
-      ctx.shadowBlur = 6;
+      if (!isLowMemoryMobile) {
+        ctx.shadowColor = "rgba(240, 210, 160, 0.5)";
+        ctx.shadowBlur = 6;
+      }
       ctx.fill();
       ctx.restore();
     }
 
-    // Cursor sparkles
+    // Cursor sparkles (desktop only)
     for (let i = cursorSparks.length - 1; i >= 0; i--) {
       const s = cursorSparks[i];
       s.x += s.vx;
@@ -218,15 +233,38 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.arc(s.x, s.y, s.size * s.alpha, 0, Math.PI * 2);
       ctx.fillStyle = s.color;
       ctx.globalAlpha = s.alpha;
-      ctx.shadowColor = "#f5dfba";
-      ctx.shadowBlur = 8;
+      if (!isLowMemoryMobile) {
+        ctx.shadowColor = "#f5dfba";
+        ctx.shadowBlur = 8;
+      }
       ctx.fill();
       ctx.restore();
     }
 
-    requestAnimationFrame(animateCanvas);
+    canvasAnimationId = requestAnimationFrame(animateCanvas);
   }
-  if (ctx) animateCanvas();
+
+  function startCanvas() {
+    if (!isCanvasRendering) {
+      isCanvasRendering = true;
+      animateCanvas();
+    }
+  }
+
+  function pauseCanvas() {
+    isCanvasRendering = false;
+    if (canvasAnimationId) {
+      cancelAnimationFrame(canvasAnimationId);
+      canvasAnimationId = null;
+    }
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) pauseCanvas();
+    else startCanvas();
+  });
+
+  if (ctx && !prefersReducedMotion) animateCanvas();
 
   /* ==========================================================================
      3. Helpers: Formatting, Clean Titles & Category Heuristics
@@ -516,101 +554,164 @@ document.addEventListener("DOMContentLoaded", () => {
     renderGrid(filteredArtifacts);
   }
 
+  /* ==========================================================================
+     6. Render Dynamic Scrapbook Masonry Columns (Progressive Chunk Loading)
+     ========================================================================== */
+  function buildCardMarkup(item, originalIndex) {
+    const frameRatioStyle = item.ratioCss
+      ? `style="aspect-ratio: ${item.ratioCss};"`
+      : (item.aspectRatio ? `style="aspect-ratio: ${item.aspectRatio};"` : "");
+
+    return `
+      <article class="drive-media-card ${item.tiltClass}" data-index="${originalIndex}">
+        <!-- Translucent Washi Tape -->
+        <div class="washi-tape tape-card-top" aria-hidden="true"></div>
+
+        <!-- Decorative Corner Wax Seal on every 3rd card -->
+        ${originalIndex % 3 === 0 ? '<img src="assets/wax_seal.png" class="card-corner-seal" aria-hidden="true" />' : ""}
+
+        <!-- Media Photo Frame (Native Aspect Ratio - Zero Crop) -->
+        <div class="media-photo-frame" ${frameRatioStyle}>
+          <img src="${item.thumbUrl}" alt="${item.title}" class="media-thumbnail-img" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://drive.google.com/thumbnail?id=${item.id}&sz=w800';" />
+
+          ${item.isVideo ? `
+            <div class="video-motion-badge">
+              <span class="video-play-glyph">▶</span>
+              <span>Cinematic Reel</span>
+            </div>
+          ` : ""}
+
+          <span class="media-res-badge">${item.ratioLabel ? `${item.ratioLabel}` : item.specs}</span>
+        </div>
+
+        <!-- Card Body -->
+        <div class="media-card-body">
+          <h3 class="media-clean-title">${item.title}</h3>
+          
+          <div class="media-meta-specs">
+            <span>${item.date}</span>
+            <span class="meta-spec-dot">&bull;</span>
+            <span>${item.size}</span>
+            ${item.width && item.height ? `<span class="meta-spec-dot">&bull;</span><span>${item.width}×${item.height}</span>` : ""}
+          </div>
+
+          <div class="media-card-actions">
+            <button class="btn-inspect-frame" data-action="inspect" data-index="${originalIndex}">
+              <span>Inspect Frame</span>
+              <span>→</span>
+            </button>
+
+            <a href="${item.downloadUrl}" target="_blank" rel="noopener noreferrer" class="btn-download-quick" title="Download original master negative" onclick="event.stopPropagation();">
+              <span>Download ⤓</span>
+            </a>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  let progressiveRenderTimer = null;
+
   function renderGrid(items) {
     if (!galleryGrid) return;
+    if (progressiveRenderTimer) {
+      if ("cancelIdleCallback" in window) cancelIdleCallback(progressiveRenderTimer);
+      else clearTimeout(progressiveRenderTimer);
+      progressiveRenderTimer = null;
+    }
     galleryGrid.innerHTML = "";
 
     const numCols = getColumnCount();
     currentColumnCount = numCols;
     const columns = distributeIntoColumns(items, numCols);
 
-    columns.forEach((colItems, colIdx) => {
+    const colElements = [];
+    for (let c = 0; c < numCols; c++) {
       const colDiv = document.createElement("div");
       colDiv.className = "gallery-masonry-col";
-      colDiv.setAttribute("data-col", String(colIdx));
-
-      let colHtml = "";
-      colItems.forEach(({ item, originalIndex }) => {
-        const frameRatioStyle = item.ratioCss
-          ? `style="aspect-ratio: ${item.ratioCss};"`
-          : (item.aspectRatio ? `style="aspect-ratio: ${item.aspectRatio};"` : "");
-
-        colHtml += `
-          <article class="drive-media-card ${item.tiltClass}" data-index="${originalIndex}">
-            <!-- Translucent Washi Tape -->
-            <div class="washi-tape tape-card-top" aria-hidden="true"></div>
-
-            <!-- Decorative Corner Wax Seal on every 3rd card -->
-            ${originalIndex % 3 === 0 ? '<img src="assets/wax_seal.png" class="card-corner-seal" aria-hidden="true" />' : ""}
-
-            <!-- Media Photo Frame (Native Aspect Ratio - Zero Crop) -->
-            <div class="media-photo-frame" ${frameRatioStyle}>
-              <img src="${item.thumbUrl}" alt="${item.title}" class="media-thumbnail-img" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://drive.google.com/thumbnail?id=${item.id}&sz=w800';" />
-
-              ${item.isVideo ? `
-                <div class="video-motion-badge">
-                  <span class="video-play-glyph">▶</span>
-                  <span>Cinematic Reel</span>
-                </div>
-              ` : ""}
-
-              <span class="media-res-badge">${item.ratioLabel ? `${item.ratioLabel}` : item.specs}</span>
-            </div>
-
-            <!-- Card Body -->
-            <div class="media-card-body">
-              <h3 class="media-clean-title">${item.title}</h3>
-              
-              <div class="media-meta-specs">
-                <span>${item.date}</span>
-                <span class="meta-spec-dot">&bull;</span>
-                <span>${item.size}</span>
-                ${item.width && item.height ? `<span class="meta-spec-dot">&bull;</span><span>${item.width}×${item.height}</span>` : ""}
-              </div>
-
-              <div class="media-card-actions">
-                <button class="btn-inspect-frame" data-action="inspect" data-index="${originalIndex}">
-                  <span>Inspect Frame</span>
-                  <span>→</span>
-                </button>
-
-                <a href="${item.downloadUrl}" target="_blank" rel="noopener noreferrer" class="btn-download-quick" title="Download original master negative" onclick="event.stopPropagation();">
-                  <span>Download ⤓</span>
-                </a>
-              </div>
-            </div>
-          </article>
-        `;
-      });
-
-      colDiv.innerHTML = colHtml;
+      colDiv.setAttribute("data-col", String(c));
       galleryGrid.appendChild(colDiv);
-    });
+      colElements.push(colDiv);
+    }
 
-    // Attach card click handlers and natural size fallback
-    galleryGrid.querySelectorAll(".drive-media-card").forEach((card) => {
-      card.addEventListener("click", () => {
+    // Flatten into ordered queue with target column assignment
+    const queue = [];
+    columns.forEach((colItems, colIdx) => {
+      colItems.forEach((entry) => {
+        queue.push({ ...entry, colIdx });
+      });
+    });
+    // Sort by original index for natural interleaving
+    queue.sort((a, b) => a.originalIndex - b.originalIndex);
+
+    // Progressive Chunk Rendering (Eliminates main-thread freeze & RAM spikes)
+    const INITIAL_CHUNK = 14;
+    const IDLE_BATCH = 10;
+    let renderedCount = 0;
+
+    function renderNextBatch(count) {
+      const targetEnd = Math.min(renderedCount + count, queue.length);
+      const fragments = Array.from({ length: numCols }, () => "");
+
+      for (let i = renderedCount; i < targetEnd; i++) {
+        const { item, originalIndex, colIdx } = queue[i];
+        fragments[colIdx] += buildCardMarkup(item, originalIndex);
+      }
+
+      for (let c = 0; c < numCols; c++) {
+        if (fragments[c]) {
+          colElements[c].insertAdjacentHTML("beforeend", fragments[c]);
+        }
+      }
+
+      renderedCount = targetEnd;
+
+      if (renderedCount < queue.length) {
+        if ("requestIdleCallback" in window) {
+          progressiveRenderTimer = requestIdleCallback(() => renderNextBatch(IDLE_BATCH), { timeout: 120 });
+        } else {
+          progressiveRenderTimer = setTimeout(() => renderNextBatch(IDLE_BATCH), 30);
+        }
+      }
+    }
+
+    renderNextBatch(INITIAL_CHUNK);
+  }
+
+  // Memory-efficient Event Delegation on galleryGrid (replaces 81 listeners)
+  if (galleryGrid) {
+    galleryGrid.addEventListener("click", (e) => {
+      if (e.target.closest(".btn-download-quick")) return;
+      const inspectBtn = e.target.closest(".btn-inspect-frame");
+      const card = e.target.closest(".drive-media-card");
+      if (inspectBtn) {
+        const idx = parseInt(inspectBtn.getAttribute("data-index") || "0", 10);
+        openLightbox(idx);
+      } else if (card) {
         const idx = parseInt(card.getAttribute("data-index") || "0", 10);
         openLightbox(idx);
-      });
-
-      const img = card.querySelector(".media-thumbnail-img");
-      if (img) {
-        img.addEventListener("load", function () {
-          const idx = parseInt(card.getAttribute("data-index") || "0", 10);
-          const item = items[idx];
-          if (item && (!item.aspectRatio || !item.width)) {
-            if (this.naturalWidth && this.naturalHeight) {
-              item.width = this.naturalWidth;
-              item.height = this.naturalHeight;
-              item.aspectRatio = +(this.naturalWidth / this.naturalHeight).toFixed(3);
-              const frame = card.querySelector(".media-photo-frame");
-              if (frame) frame.style.aspectRatio = `${this.naturalWidth} / ${this.naturalHeight}`;
-            }
-          }
-        });
       }
     });
+
+    // Image aspect ratio auto-calibration on load via event delegation
+    galleryGrid.addEventListener("load", (e) => {
+      if (e.target && e.target.classList.contains("media-thumbnail-img")) {
+        const img = e.target;
+        const card = img.closest(".drive-media-card");
+        if (!card) return;
+        const idx = parseInt(card.getAttribute("data-index") || "0", 10);
+        const item = filteredArtifacts[idx];
+        if (item && (!item.aspectRatio || !item.width)) {
+          if (img.naturalWidth && img.naturalHeight) {
+            item.width = img.naturalWidth;
+            item.height = img.naturalHeight;
+            item.aspectRatio = +(img.naturalWidth / img.naturalHeight).toFixed(3);
+            const frame = card.querySelector(".media-photo-frame");
+            if (frame) frame.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+          }
+        }
+      }
+    }, true);
   }
 
   // Window resize debounced listener to rebalance masonry columns
@@ -628,7 +729,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================================================================
-     6. Search & Filter Event Listeners
+     7. Search & Filter Event Listeners
      ========================================================================== */
   filterPills.forEach((pill) => {
     pill.addEventListener("click", () => {
@@ -685,7 +786,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================================
-     7. High-Definition Lightbox Modal
+     8. High-Definition Lightbox Modal (Low-RAM Adaptive Resolution)
      ========================================================================== */
   function openLightbox(index) {
     initAudio();
@@ -694,6 +795,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!filteredArtifacts || index < 0 || index >= filteredArtifacts.length) return;
     currentLightboxIndex = index;
     const item = filteredArtifacts[index];
+
+    // Mobile Low-RAM Image Optimization:
+    // On phones (<=768px), request =w1400 instead of =w2400 to save 20MB+ bitmap RAM while remaining razor sharp!
+    const isMobileViewport = window.innerWidth <= 768;
+    const mediaHighResUrl = isMobileViewport
+      ? (item.isVideo ? item.fullUrl : `https://lh3.googleusercontent.com/d/${item.id}=w1400`)
+      : item.fullUrl;
 
     if (item.isVideo) {
       if (lightboxImageWrap) lightboxImageWrap.style.display = "none";
@@ -704,7 +812,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // Vertical Reel (9:16)
           lightboxVideoIframe.style.aspectRatio = "9 / 16";
           lightboxVideoIframe.style.width = "auto";
-          lightboxVideoIframe.style.height = "66vh";
+          lightboxVideoIframe.style.height = isMobileViewport ? "52dvh" : "66vh";
           lightboxVideoIframe.style.maxWidth = "90vw";
         } else {
           // Horizontal Video (16:9)
@@ -718,7 +826,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (lightboxVideoWrap) lightboxVideoWrap.style.display = "none";
       if (lightboxImageWrap) lightboxImageWrap.style.display = "flex";
       if (lightboxImg) {
-        lightboxImg.src = item.fullUrl;
+        lightboxImg.src = mediaHighResUrl;
         lightboxImg.alt = item.title;
         lightboxImg.style.aspectRatio = item.ratioCss || (item.aspectRatio ? String(item.aspectRatio) : "auto");
       }
@@ -767,6 +875,32 @@ document.addEventListener("DOMContentLoaded", () => {
     lightboxModal.addEventListener("click", (e) => {
       if (e.target === lightboxModal) closeLightbox();
     });
+
+    // Mobile Touch-Swipe Gestures for Lightbox
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    lightboxModal.addEventListener("touchstart", (e) => {
+      if (e.touches && e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    lightboxModal.addEventListener("touchend", (e) => {
+      if (e.changedTouches && e.changedTouches.length === 1) {
+        touchEndX = e.changedTouches[0].clientX;
+        touchEndY = e.changedTouches[0].clientY;
+        const diffX = touchEndX - touchStartX;
+        const diffY = touchEndY - touchStartY;
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 42) {
+          if (diffX < 0) nextLightbox(); // Swiped left -> next
+          else prevLightbox(); // Swiped right -> prev
+        }
+      }
+    }, { passive: true });
   }
 
   // Keyboard navigation
@@ -777,9 +911,17 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (e.key === "ArrowLeft") prevLightbox();
   });
 
-  // Mobile drawer toggle
+  // Mobile drawer toggle & auto-close
   const mobileMenuBtn = document.getElementById("mobileMenuBtn");
   const mobileNavDrawer = document.getElementById("mobileNavDrawer");
+
+  function closeMobileDrawer() {
+    if (!mobileNavDrawer || !mobileMenuBtn) return;
+    mobileNavDrawer.classList.remove("open");
+    mobileMenuBtn.classList.remove("open");
+    mobileNavDrawer.setAttribute("aria-hidden", "true");
+  }
+
   if (mobileMenuBtn && mobileNavDrawer) {
     mobileMenuBtn.addEventListener("click", () => {
       const isOpen = mobileNavDrawer.classList.toggle("open");
@@ -787,6 +929,24 @@ document.addEventListener("DOMContentLoaded", () => {
       mobileNavDrawer.setAttribute("aria-hidden", String(!isOpen));
       initAudio();
       playGoldenChime(587.33);
+    });
+
+    // Close on link click
+    mobileNavDrawer.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        closeMobileDrawer();
+      });
+    });
+
+    // Close on outside tap
+    document.addEventListener("click", (e) => {
+      if (
+        mobileNavDrawer.classList.contains("open") &&
+        !mobileNavDrawer.contains(e.target) &&
+        !mobileMenuBtn.contains(e.target)
+      ) {
+        closeMobileDrawer();
+      }
     });
   }
 

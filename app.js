@@ -116,12 +116,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================================
-     2. Golden Stardust & Particle Canvas (Dust motes & cursor trail)
+     2. Golden Stardust & Particle Canvas (Low-RAM & Mobile Optimized)
      ========================================================================== */
   const canvas = document.getElementById("stardustCanvas");
   let ctx = canvas ? canvas.getContext("2d") : null;
-  let width = (canvas.width = window.innerWidth);
-  let height = (canvas.height = window.innerHeight);
+  let width = (canvas ? (canvas.width = window.innerWidth) : 0);
+  let height = (canvas ? (canvas.height = window.innerHeight) : 0);
+
+  const isLowMemoryMobile =
+    window.innerWidth <= 768 ||
+    (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+    (navigator.deviceMemory && navigator.deviceMemory <= 4);
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   window.addEventListener("resize", () => {
     if (!canvas) return;
@@ -131,51 +138,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Floating ambient golden dust motes
   const ambientMotes = [];
-  const MOTE_COUNT = 38;
+  const MOTE_COUNT = prefersReducedMotion ? 0 : (isLowMemoryMobile ? 10 : 32);
   for (let i = 0; i < MOTE_COUNT; i++) {
     ambientMotes.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: Math.random() * 2.2 + 0.8,
-      speedX: (Math.random() - 0.5) * 0.4,
-      speedY: -Math.random() * 0.4 - 0.1,
-      opacity: Math.random() * 0.6 + 0.2,
+      size: Math.random() * (isLowMemoryMobile ? 1.6 : 2.2) + 0.8,
+      speedX: (Math.random() - 0.5) * 0.35,
+      speedY: -Math.random() * 0.35 - 0.1,
+      opacity: Math.random() * 0.5 + 0.2,
       pulse: Math.random() * Math.PI * 2,
     });
   }
 
-  // Interactive cursor trail sparks
+  // Interactive cursor trail sparks (desktop only)
   const cursorSparks = [];
   let mouse = { x: width * 0.65, y: height * 0.72, active: false };
 
-  window.addEventListener("mousemove", (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-    mouse.active = true;
+  if (!isLowMemoryMobile && !prefersReducedMotion) {
+    window.addEventListener("mousemove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
 
-    // Add trailing stardust particles
-    if (Math.random() < 0.65) {
-      cursorSparks.push({
-        x: e.clientX + (Math.random() - 0.5) * 12,
-        y: e.clientY + (Math.random() - 0.5) * 12,
-        vx: (Math.random() - 0.5) * 1.2,
-        vy: (Math.random() - 0.5) * 1.2 - 0.3,
-        size: Math.random() * 2.6 + 1.2,
-        alpha: 1,
-        decay: Math.random() * 0.02 + 0.015,
-        color: Math.random() > 0.4 ? "#f5dfba" : "#cfa365",
-      });
-    }
-  });
+      if (Math.random() < 0.55 && cursorSparks.length < 24) {
+        cursorSparks.push({
+          x: e.clientX + (Math.random() - 0.5) * 12,
+          y: e.clientY + (Math.random() - 0.5) * 12,
+          vx: (Math.random() - 0.5) * 1.2,
+          vy: (Math.random() - 0.5) * 1.2 - 0.3,
+          size: Math.random() * 2.4 + 1.2,
+          alpha: 1,
+          decay: Math.random() * 0.02 + 0.015,
+          color: Math.random() > 0.4 ? "#f5dfba" : "#cfa365",
+        });
+      }
+    });
+  }
 
-  // Static Golden Ribbon connecting cards (mimics the glowing line from reference)
+  // Static Golden Ribbon connecting cards
   let ribbonPhase = 0;
 
   function drawGoldenRibbon() {
     if (!ctx) return;
     ribbonPhase += 0.018;
 
-    // Anchors: from center card bottom to right bottom card
     const startX = width * 0.48;
     const startY = height * 0.72;
     const endX = width * 0.76;
@@ -190,30 +197,28 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.moveTo(startX, startY);
     ctx.bezierCurveTo(cp1X, cp1Y, cp2X, cp2Y, endX, endY);
 
-    // Glowing golden ribbon stroke
     ctx.strokeStyle = "rgba(235, 198, 142, 0.45)";
     ctx.lineWidth = 1.8;
-    ctx.shadowColor = "rgba(224, 185, 120, 0.85)";
-    ctx.shadowBlur = 14;
     ctx.stroke();
 
-    // Secondary inner bright shimmer
     ctx.strokeStyle = "rgba(255, 248, 230, 0.75)";
     ctx.lineWidth = 0.8;
     ctx.stroke();
     ctx.restore();
   }
 
+  let canvasAnimationId = null;
+  let isCanvasRendering = true;
+
   function animateCanvas() {
-    if (!ctx) return;
+    if (!ctx || !isCanvasRendering || prefersReducedMotion) return;
     ctx.clearRect(0, 0, width, height);
 
-    // 1. Draw glowing golden ribbon curve
     if (width > 860) {
       drawGoldenRibbon();
     }
 
-    // 2. Ambient drifting dust motes
+    // Ambient drifting dust motes
     for (let i = 0; i < ambientMotes.length; i++) {
       const m = ambientMotes[i];
       m.x += m.speedX;
@@ -230,13 +235,15 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.beginPath();
       ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(225, 190, 135, ${currentAlpha})`;
-      ctx.shadowColor = "rgba(240, 210, 160, 0.6)";
-      ctx.shadowBlur = 8;
+      if (!isLowMemoryMobile) {
+        ctx.shadowColor = "rgba(240, 210, 160, 0.6)";
+        ctx.shadowBlur = 6;
+      }
       ctx.fill();
       ctx.restore();
     }
 
-    // 3. Cursor sparkles
+    // Cursor sparkles (desktop only)
     for (let i = cursorSparks.length - 1; i >= 0; i--) {
       const s = cursorSparks[i];
       s.x += s.vx;
@@ -253,16 +260,38 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.arc(s.x, s.y, s.size * s.alpha, 0, Math.PI * 2);
       ctx.fillStyle = s.color;
       ctx.globalAlpha = s.alpha;
-      ctx.shadowColor = "#f5dfba";
-      ctx.shadowBlur = 10;
+      if (!isLowMemoryMobile) {
+        ctx.shadowColor = "#f5dfba";
+        ctx.shadowBlur = 8;
+      }
       ctx.fill();
       ctx.restore();
     }
 
-    requestAnimationFrame(animateCanvas);
+    canvasAnimationId = requestAnimationFrame(animateCanvas);
   }
 
-  if (ctx) {
+  function startCanvas() {
+    if (!isCanvasRendering) {
+      isCanvasRendering = true;
+      animateCanvas();
+    }
+  }
+
+  function pauseCanvas() {
+    isCanvasRendering = false;
+    if (canvasAnimationId) {
+      cancelAnimationFrame(canvasAnimationId);
+      canvasAnimationId = null;
+    }
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) pauseCanvas();
+    else startCanvas();
+  });
+
+  if (ctx && !prefersReducedMotion) {
     animateCanvas();
   }
 
@@ -376,14 +405,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll(".mobile-link-script").forEach((link) => {
     link.addEventListener("click", (e) => {
-      e.preventDefault();
       const action = link.getAttribute("data-action");
+      const href = link.getAttribute("href");
       closeMobileDrawer();
-      if (action === "gallery") openModal("galleryModal");
-      else if (action === "about") openModal("aboutModal");
-      else if (action === "story") openModal("storyModal");
-      else if (action === "contact") openModal("contactModal");
+
+      if (action) {
+        e.preventDefault();
+        if (action === "gallery") openModal("galleryModal");
+        else if (action === "about") openModal("aboutModal");
+        else if (action === "story") openModal("storyModal");
+        else if (action === "contact") openModal("contactModal");
+      } else if (href && href.startsWith("#")) {
+        const targetEl = document.querySelector(href);
+        if (targetEl) {
+          e.preventDefault();
+          targetEl.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+      // If href is "gallery.html", normal navigation proceeds!
     });
+  });
+
+  // Tap outside to close mobile drawer
+  document.addEventListener("click", (e) => {
+    if (
+      mobileNavDrawer &&
+      mobileNavDrawer.classList.contains("open") &&
+      !mobileNavDrawer.contains(e.target) &&
+      !mobileMenuBtn.contains(e.target)
+    ) {
+      closeMobileDrawer();
+    }
   });
 
   /* ==========================================================================

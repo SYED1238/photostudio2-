@@ -436,6 +436,8 @@
   flex-direction: column;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
   cursor: pointer;
+  content-visibility: auto;
+  contain-intrinsic-size: 320px 480px;
 }
 
 /* Organic Rotation Angles */
@@ -862,8 +864,80 @@
 }
 
 @media (max-width: 768px) {
-  .drive-scrapbook-grid {
+  .gallery-editorial-header {
+    margin-top: 18px;
+    margin-bottom: 24px;
+    padding: 0 10px;
+  }
+
+  .gallery-script-title {
+    font-size: clamp(40px, 10vw, 56px);
+  }
+
+  .gallery-editorial-desc {
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+
+  .vault-sync-bar {
+    width: 100%;
+    border-radius: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 14px;
     gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .vault-metrics-row {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .scrapbook-search-input {
+    font-size: 16px; /* Prevents auto-zoom on iOS Safari */
+    padding: 12px 42px 12px 42px;
+  }
+
+  .clear-search-btn {
+    width: 44px;
+    height: 44px;
+    right: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Horizontal Touch-Swipeable Filter Bar (Native App Style) */
+  .gallery-filter-ribbons {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    justify-content: flex-start;
+    padding: 6px 4px 10px 4px;
+    gap: 8px;
+    width: 100%;
+    scroll-snap-type: x proximity;
+  }
+
+  .gallery-filter-ribbons::-webkit-scrollbar {
+    display: none;
+  }
+
+  .archive-pill {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    white-space: nowrap;
+    padding: 8px 16px;
+    font-size: 14.5px;
+    min-height: 44px;
+    border-radius: 9999px;
+  }
+
+  .drive-scrapbook-grid {
+    gap: 12px;
     width: 100%;
   }
 
@@ -885,33 +959,113 @@
     margin-bottom: 8px;
   }
 
-  .vault-sync-bar {
-    border-radius: 12px;
-    flex-direction: column;
-    align-items: flex-start;
+  .media-card-actions {
+    gap: 8px;
+  }
+
+  .btn-inspect-frame,
+  .btn-download-quick {
+    min-height: 42px;
+    padding: 8px 12px;
+  }
+
+  /* Lightbox Responsive Enhancements */
+  .gallery-lightbox-overlay {
+    padding: 8px;
+  }
+
+  .lightbox-frame {
+    max-height: 94dvh;
+    max-height: 94vh;
+    border-radius: 8px;
   }
 
   .lightbox-stage-container {
-    min-height: 320px;
+    min-height: 240px;
+    max-height: 56dvh;
+    max-height: 56vh;
+  }
+
+  .lightbox-main-img {
+    max-height: 52dvh;
+    max-height: 52vh;
+  }
+
+  .lightbox-video-wrap {
+    height: 54dvh;
   }
 
   .lightbox-details-footer {
+    padding: 14px 16px;
     flex-direction: column;
     align-items: flex-start;
+    gap: 12px;
+  }
+
+  .lightbox-script-title {
+    font-size: 20px;
   }
 
   .lightbox-action-buttons {
     width: 100%;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .lightbox-action-buttons .lumina-btn {
     width: 100%;
+    min-width: 0;
+    padding: 10px 18px;
+    font-size: 15px;
     text-align: center;
   }
 
   .lightbox-nav-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
+    width: 46px;
+    height: 46px;
+    font-size: 28px;
+    background: rgba(30, 24, 18, 0.5);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .lightbox-nav-btn.nav-prev {
+    left: 8px;
+  }
+
+  .lightbox-nav-btn.nav-next {
+    right: 8px;
+  }
+
+  .modal-close-btn {
+    top: 10px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
   }
 }
+
+@media (max-width: 480px) {
+  .gallery-script-title {
+    font-size: 42px;
+  }
+
+  .gallery-editorial-desc {
+    font-size: 15px;
+  }
+
+  .bottom-script-title {
+    font-size: 38px;
+  }
+
+  .bottom-btn-row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .bottom-btn-row .lumina-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
