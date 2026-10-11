@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>Curated Photographic Archive — Lumina Studio | Masterpiece Vault</title>
+  <meta name="description"
+    content="Curated master photographic archive for Lumina Studio. Explore 81+ fine-art master negatives, golden hour portraits, and cinematic motion reels.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c9a875'><circle cx='12' cy='12' r='10'/><path d='M12 6v12M6 12h12' stroke='%23fff' stroke-width='1.5'/></svg>">
+
+  <!-- Google Fonts: Alex Brush, Cormorant Garamond, Inter, Great Vibes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="gallery.css">
+</head>
+
+<body class="gallery-page-body">
+  <!-- Ambient Botanical Leaf Shadows & Sunlight Glow -->
+  <div class="ambient-sunlight-overlay" aria-hidden="true"></div>
+  <div class="ambient-leaf-shadow" aria-hidden="true"></div>
+
+  <!-- Interactive Golden Stardust & Particle Canvas -->
+  <canvas id="stardustCanvas" class="stardust-canvas"></canvas>
+
+  <!-- Main Scrapbook Page Container -->
+  <div class="scrapbook-viewport gallery-viewport">
+
+    <!-- Top Torn Paper Navigation Bar -->
+    <header class="top-nav-container">
+      <nav class="torn-paper-navbar gallery-nav" aria-label="Main Navigation">
+        <div class="torn-paper-bg" aria-hidden="true"></div>
+        
+        <div class="nav-left-action">
+          <a href="index.html" class="nav-back-home" title="Return to Atelier Home">
+            <span class="back-glyph">←</span>
+            <span class="nav-link-script">Return to Atelier</span>
+          </a>
+        </div>
+
+        <ul class="nav-links-list gallery-nav-links">
+          <li><a href="index.html#disciplines" class="nav-link-script">Disciplines</a></li>
+          <li><a href="index.html#journal" class="nav-link-script">Journal</a></li>
+          <li><a href="index.html#investment" class="nav-link-script">Collections</a></li>
+          <li><a href="index.html#reservation" class="nav-link-script">Reserve</a></li>
+        </ul>
+
+        <div class="nav-drive-badge-wrap">
+          <a href="index.html#reservation" class="atelier-reserve-pill" title="Reserve an Atelier Commission">
+            <img src="assets/wax_seal.png" alt="" class="nav-seal-icon" aria-hidden="true" />
+            <span>Reserve Commission</span>
+          </a>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Mobile Navigation">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+        </button>
+      </nav>
+
+      <!-- Mobile Slide Drawer -->
+      <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
+        <ul class="mobile-links-list">
+          <li><a href="index.html" class="mobile-link-script">← Home</a></li>
+          <li><a href="index.html#disciplines" class="mobile-link-script">Disciplines</a></li>
+          <li><a href="index.html#journal" class="mobile-link-script">Field Journal</a></li>
+          <li><a href="index.html#investment" class="mobile-link-script">Collections</a></li>
+          <li><a href="index.html#reservation" class="mobile-link-script">Reserve Commission</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- Header Archive Showcase Block -->
+    <header class="gallery-editorial-header">
+      <div class="section-tag-pill">
+        <span class="pill-sparkle">✦</span>
+        <span>ATELIER MONOGRAPH ARCHIVE</span>
+        <span class="pill-sparkle">✦</span>
+      </div>
+
+      <h1 class="gallery-script-title">The Masterpiece Vault</h1>
+      
+      <p class="gallery-editorial-desc">
+        The curated master collection from our European atelier. Explore 81+ unhurried medium format negatives, 2K fine-art captures, and 1080p cinematic motion reels preserved in our darkroom archive.
+      </p>
+
+      <!-- Live Vault Status Card -->
+      <div class="vault-sync-bar">
+        <div class="vault-status-indicator">
+          <span class="pulse-dot"></span>
+          <span id="driveStatusText">Atelier Archive Active &bull; Master Negatives Synchronized</span>
+        </div>
+
+        <div class="vault-metrics-row">
+          <span class="vault-count-pill" id="driveCountPill">81 Masterpieces</span>
+          <button class="vault-sync-btn" id="btnRefreshDrive" title="Refresh Archive Stream">
+            <span class="sync-icon">⟳</span>
+            <span>Refresh Stream</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Category Filters -->
+      <div class="gallery-controls-card">
+        <!-- Live Search Box -->
+        <div class="scrapbook-search-wrap">
+          <span class="search-quill-icon">✍</span>
+          <input type="text" id="gallerySearchInput" class="scrapbook-search-input"
+            placeholder="Search archives by scene, light, or keyword (e.g. bench, ocean, forest, balcony, castle, lavender)..."
+            aria-label="Search gallery archives">
+          <button class="clear-search-btn" id="btnClearSearch" aria-label="Clear Search" style="display:none;">✕</button>
+        </div>
+
+        <!-- Filter Pills Ribbons -->
+        <div class="gallery-filter-ribbons" role="tablist" aria-label="Archive Categories">
+          <button class="archive-pill active" data-filter="all">
+            <span>✦ All Works</span>
+            <span class="pill-counter" id="countAll">81</span>
+          </button>
+          <button class="archive-pill" data-filter="couples">
+            <span>✦ Meadows &amp; Sunsets</span>
+            <span class="pill-counter" id="countMeadows">28</span>
+          </button>
+          <button class="archive-pill" data-filter="architecture">
+            <span>✦ Castles &amp; Architecture</span>
+            <span class="pill-counter" id="countArchitecture">18</span>
+          </button>
+          <button class="archive-pill" data-filter="coastal">
+            <span>✦ Coastal &amp; Lakes</span>
+            <span class="pill-counter" id="countCoastal">15</span>
+          </button>
+          <button class="archive-pill" data-filter="intimate">
+            <span>✦ Forest &amp; Intimate</span>
+            <span class="pill-counter" id="countIntimate">12</span>
+          </button>
+          <button class="archive-pill" data-filter="motion">
+            <span>✦ Cinematic Film (.mp4)</span>
+            <span class="pill-counter" id="countMotion">23</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- Gallery Scrapbook Masonry Stage -->
+    <main class="gallery-scrapbook-stage">
+
+      <!-- Loading Placeholder -->
+      <div class="gallery-loading-card" id="galleryLoadingState">
+        <div class="loading-seal-wrap">
+          <img src="assets/wax_seal.png" alt="Loading" class="loading-seal-spin" />
+        </div>
+        <h3 class="loading-title">Unrolling Master Negatives...</h3>
+        <p class="loading-sub">Accessing Studio Negative Vault &bull; Hasselblad 500C/M &amp; Kodak Portra 400</p>
+      </div>
+
+      <!-- Dynamic Scrapbook Masonry Grid -->
+      <div class="drive-scrapbook-grid" id="driveGalleryGrid">
+        <!-- Injected dynamically via gallery.js -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="gallery-empty-card" id="galleryEmptyState" style="display:none;">
+        <span class="empty-quill">🍂</span>
+        <h3 class="empty-title">No Negatives Found</h3>
+        <p class="empty-sub">No photographs in our archive matched your search query. Try typing another scene, light keyword, or clear your filters.</p>
+        <button class="lumina-btn lumina-btn-secondary" id="btnResetSearch">
+          <span class="btn-text">Reset All Filters</span>
+        </button>
+      </div>
+
+    </main>
+
+    <!-- Bottom Archive Action Bar -->
+    <section class="gallery-bottom-cta">
+      <div class="bottom-cta-inner">
+        <img src="assets/botanicals_dried_pair.png" alt="" class="bottom-cta-botanical" aria-hidden="true" />
+        <span class="bottom-subtag">Bespoke Inquiries</span>
+        <h2 class="bottom-script-title">Envision Your Story in the Archive</h2>
+        <p class="bottom-desc">
+          Every love story and family legacy recorded in this vault began with a conversation. We accept only four bespoke commissions per month to preserve absolute fine-art devotion.
+        </p>
+        <div class="bottom-btn-row">
+          <a href="index.html#reservation" class="lumina-btn lumina-btn-accent">
+            <span class="btn-text">Reserve Your Commission</span>
+            <span class="btn-glow-ring"></span>
+          </a>
+          <a href="index.html#journal" class="lumina-btn lumina-btn-secondary">
+            <span class="btn-text">Explore Field Journal</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Handcrafted Torn Paper Studio Footer -->
+    <footer class="studio-torn-footer">
+      <div class="footer-torn-edge" aria-hidden="true"></div>
+      
+      <div class="footer-inner-content">
+        <div class="footer-brand-col">
+          <h2 class="footer-script-brand">Lumina Studio</h2>
+          <p class="footer-tagline">Natural Light Fine-Art Atelier &bull; Est. 2018</p>
+          <p class="footer-mantra">
+            Devoted to the reverence of sunlight, medium format film grain, and heirloom preservation that survives the test of time.
+          </p>
+          <div class="footer-seals-row">
+            <img src="assets/wax_seal.png" alt="Wax Seal" class="footer-seal-mini" />
+            <span>Atelier Masterpiece Vault Synchronized</span>
+          </div>
+        </div>
+
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">Navigation</h4>
+          <ul class="footer-nav-list">
+            <li><a href="index.html">The Scrapbook Stage</a></li>
+            <li><a href="index.html#disciplines">Atelier Disciplines</a></li>
+            <li><a href="index.html#journal">Field Journal</a></li>
+            <li><a href="index.html#investment">Investment &amp; Folios</a></li>
+            <li><a href="index.html#reservation">Guestbook &amp; Reservation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">Archive Details</h4>
+          <ul class="footer-nav-list">
+            <li><span id="footerTotalCount">81 Media Artifacts</span></li>
+            <li><span>Resolution: 2K Fine-Art &amp; 1080p Film</span></li>
+            <li><span>Color Space: Kodak Portra Warm Grain</span></li>
+            <li><span>Archive Vault: Private Cloud Negative Storage</span></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">Havens &bull; Studios</h4>
+          <div class="footer-location-block">
+            <p><strong>Provence</strong> &bull; Olive Hillside Atelier</p>
+            <p><strong>Zurich</strong> &bull; Lake Promenade Studio</p>
+            <p><strong>Andalusia</strong> &bull; Southern Wheat Meadow</p>
+            <p class="footer-email-link">atelier@luminaphoto.com</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div class="footer-bottom-left">
+          <span>&copy; 2026 Lumina Studio Atelier. Handcrafted Negative Archive.</span>
+        </div>
+        <div class="footer-bottom-center">
+          <button class="footer-back-to-top" id="btnBackToTop" aria-label="Return to Top of Scrapbook">
+            <span class="back-arrow">↑</span>
+            <span>Return to Top</span>
+          </button>
+        </div>
+        <div class="footer-bottom-right">
+          <span>Kodak Portra 400 &bull; Hasselblad 500C/M &bull; Cotton Rags</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating Sound & Experience Utilities -->
+    <div class="dock-utility-bar floating-dock">
+      <div class="sound-toggle-wrap">
+        <button class="sound-toggle-btn" id="btnSoundToggle" aria-label="Toggle Atmosphere Audio">
+          <span class="sound-icon" id="soundIcon">🔔</span>
+          <span class="sound-label" id="soundLabel">Atmosphere: Active</span>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /.scrapbook-viewport -->
+
+
+  <!-- =========================================================================
+       HIGH-DEFINITION SCRAPBOOK LIGHTBOX MODAL
+       ========================================================================= -->
+  <div class="lumina-modal-overlay gallery-lightbox-overlay" id="galleryLightbox" aria-hidden="true" role="dialog" aria-labelledby="lightboxMediaTitle">
+    <div class="modal-card-frame lightbox-frame">
+      <!-- Close Button -->
+      <button class="modal-close-btn" id="btnCloseLightbox" aria-label="Close Lightbox">✕</button>
+
+      <!-- Lightbox Media Stage -->
+      <div class="lightbox-stage-container">
+        <!-- Image Container -->
+        <div class="lightbox-image-wrap" id="lightboxImageWrap">
+          <img src="" alt="" id="lightboxImg" class="lightbox-main-img" />
+        </div>
+
+        <!-- Video Container -->
+        <div class="lightbox-video-wrap" id="lightboxVideoWrap" style="display:none;">
+          <iframe src="" id="lightboxVideoIframe" class="lightbox-video-iframe" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        </div>
+
+        <!-- Navigation Chevrons -->
+        <button class="lightbox-nav-btn nav-prev" id="btnLightboxPrev" aria-label="Previous Media">‹</button>
+        <button class="lightbox-nav-btn nav-next" id="btnLightboxNext" aria-label="Next Media">›</button>
+      </div>
+
+      <!-- Lightbox Footer Details & Direct Download -->
+      <div class="lightbox-details-footer">
+        <div class="lightbox-meta-info">
+          <span class="lightbox-subtag" id="lightboxMediaCategory">✦ Master Negative ✦</span>
+          <h3 class="lightbox-script-title" id="lightboxMediaTitle">Untitled Masterpiece</h3>
+          <p class="lightbox-meta-specs" id="lightboxMediaSpecs">2K Fine-Art &bull; Created Summer 2026</p>
+        </div>
+
+        <div class="lightbox-action-buttons">
+          <a href="#" id="btnDownloadMedia" target="_blank" rel="noopener noreferrer" class="lumina-btn lumina-btn-primary" download>
+            <span class="btn-text">Download Master Negative</span>
+            <span class="btn-glow-ring"></span>
+          </a>
+          <a href="index.html#reservation" class="lumina-btn lumina-btn-secondary">
+            <span class="btn-text">Inquire Regarding Print</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="gallery.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,917 @@
+/* ==========================================================================
+   LUMINA STUDIO — Atelier Google Drive Masterpiece Gallery
+   Scrapbook Botanical Luxury Archive & Live Cloud Vault Synchronization
+   ========================================================================== */
+
+.gallery-page-body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.gallery-viewport {
+  max-width: 1720px;
+}
+
+/* --------------------------------------------------------------------------
+   1. NAVIGATION BAR (Gallery Variant)
+   -------------------------------------------------------------------------- */
+.gallery-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px clamp(16px, 3vw, 36px);
+}
+
+.nav-left-action {
+  display: flex;
+  align-items: center;
+}
+
+.nav-back-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--color-ink-primary);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.nav-back-home:hover {
+  transform: translateX(-3px);
+  color: var(--color-gold);
+}
+
+.back-glyph {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.gallery-nav-links {
+  margin: 0;
+}
+
+.nav-drive-badge-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.atelier-reserve-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--color-gold);
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7d4d23;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(185, 145, 90, 0.2);
+  transition: all 0.25s ease;
+}
+
+.atelier-reserve-pill:hover {
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(185, 145, 90, 0.35);
+  transform: translateY(-1px);
+}
+
+.nav-seal-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   2. GALLERY HEADER & LIVE VAULT SYNC BAR
+   -------------------------------------------------------------------------- */
+.gallery-editorial-header {
+  text-align: center;
+  max-width: 980px;
+  margin: clamp(24px, 3vw, 42px) auto clamp(32px, 4vw, 54px) auto;
+  padding: 0 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.gallery-script-title {
+  font-family: var(--font-script);
+  font-size: clamp(52px, 6.5vw, 92px);
+  color: var(--color-ink-primary);
+  line-height: 1.08;
+  margin-bottom: 14px;
+  text-shadow: 0 2px 14px rgba(220, 190, 140, 0.35);
+}
+
+.gallery-editorial-desc {
+  font-family: var(--font-editorial);
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+  font-style: italic;
+  max-width: 760px;
+  margin: 0 auto 26px auto;
+}
+
+/* Vault Sync Bar */
+.vault-sync-bar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: #fcf8f2;
+  border: 1px solid rgba(195, 165, 125, 0.45);
+  border-radius: 9999px;
+  padding: 8px 22px;
+  box-shadow: 0 4px 16px rgba(70, 50, 30, 0.06);
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.vault-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--color-ink-secondary);
+  font-weight: 500;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #38a169;
+  box-shadow: 0 0 0 0 rgba(56, 161, 105, 0.7);
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(56, 161, 105, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(56, 161, 105, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(56, 161, 105, 0); }
+}
+
+.vault-metrics-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vault-count-pill {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  background: rgba(235, 218, 195, 0.6);
+  border: 1px solid rgba(190, 160, 130, 0.4);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  color: #7d4d23;
+  font-weight: 600;
+}
+
+.vault-sync-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--color-ink-secondary);
+  cursor: pointer;
+  padding: 2px 6px;
+  transition: color 0.25s ease;
+}
+
+.vault-sync-btn:hover {
+  color: var(--color-gold);
+}
+
+.vault-sync-btn.rotating .sync-icon {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------------------------------------
+   3. GALLERY SEARCH & FILTER CONTROLS
+   -------------------------------------------------------------------------- */
+.gallery-controls-card {
+  background: #faf4eb;
+  border: 1px solid rgba(185, 155, 120, 0.35);
+  border-radius: 12px;
+  padding: clamp(16px, 2.5vw, 26px);
+  box-shadow: var(--shadow-paper);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+.scrapbook-search-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.search-quill-icon {
+  position: absolute;
+  left: 18px;
+  font-size: 18px;
+  color: var(--color-gold);
+  pointer-events: none;
+}
+
+.scrapbook-search-input {
+  width: 100%;
+  padding: 14px 44px 14px 48px;
+  background: #ffffff;
+  border: 1px solid rgba(190, 160, 130, 0.4);
+  border-radius: 9999px;
+  font-family: var(--font-editorial);
+  font-size: 18px;
+  color: var(--color-ink-primary);
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(60, 45, 30, 0.04);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.scrapbook-search-input:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(201, 163, 104, 0.22);
+}
+
+.scrapbook-search-input::placeholder {
+  color: #9c8976;
+  font-style: italic;
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 18px;
+  background: none;
+  border: none;
+  color: var(--color-ink-muted);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.clear-search-btn:hover {
+  color: var(--color-ink-primary);
+}
+
+/* Category Filter Ribbons */
+.gallery-filter-ribbons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.archive-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245, 235, 222, 0.65);
+  border: 1px solid rgba(190, 160, 130, 0.4);
+  border-radius: 9999px;
+  padding: 7px 16px;
+  font-family: var(--font-editorial);
+  font-size: 16px;
+  color: var(--color-ink-secondary);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.archive-pill:hover {
+  background: #ffffff;
+  border-color: var(--color-gold);
+  color: var(--color-ink-primary);
+  transform: translateY(-1px);
+}
+
+.archive-pill.active {
+  background: #ffffff;
+  border-color: var(--color-gold);
+  color: var(--color-ink-primary);
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(185, 145, 90, 0.22);
+  transform: translateY(-2px);
+}
+
+.pill-counter {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  background: rgba(230, 215, 195, 0.55);
+  border-radius: 9999px;
+  padding: 1px 7px;
+  color: var(--color-ink-muted);
+}
+
+.archive-pill.active .pill-counter {
+  background: rgba(240, 220, 180, 0.7);
+  color: #7b4e24;
+}
+
+/* --------------------------------------------------------------------------
+   4. DYNAMIC SCRAPBOOK MASONRY / GRID
+   -------------------------------------------------------------------------- */
+.gallery-scrapbook-stage {
+  width: 100%;
+  position: relative;
+  min-height: 400px;
+  margin-bottom: 60px;
+  z-index: 10;
+}
+
+/* Loading Placeholder */
+.gallery-loading-card {
+  text-align: center;
+  padding: 80px 20px;
+  background: #faf4eb;
+  border: 1px dashed rgba(190, 160, 130, 0.4);
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+.loading-seal-wrap {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px auto;
+}
+
+.loading-seal-spin {
+  width: 100%;
+  height: 100%;
+  animation: spin 3s linear infinite;
+  filter: drop-shadow(0 4px 12px rgba(80, 45, 20, 0.25));
+}
+
+.loading-title {
+  font-family: var(--font-editorial);
+  font-size: 26px;
+  color: var(--color-ink-primary);
+  margin-bottom: 8px;
+}
+
+.loading-sub {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--color-ink-muted);
+  letter-spacing: 0.05em;
+}
+
+/* Empty State */
+.gallery-empty-card {
+  text-align: center;
+  padding: 80px 20px;
+  background: #faf4eb;
+  border: 1px solid rgba(190, 160, 130, 0.35);
+  border-radius: 12px;
+  max-width: 640px;
+  margin: 40px auto;
+}
+
+.empty-quill {
+  font-size: 42px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.empty-title {
+  font-family: var(--font-editorial);
+  font-size: 28px;
+  color: var(--color-ink-primary);
+  margin-bottom: 10px;
+}
+
+.empty-sub {
+  font-family: var(--font-editorial);
+  font-size: 17px;
+  color: var(--color-ink-secondary);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/* True Scrapbook Masonry Column Container */
+.drive-scrapbook-grid {
+  display: flex;
+  gap: clamp(14px, 2.2vw, 28px);
+  width: 100%;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.gallery-masonry-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.6vw, 32px);
+}
+
+/* Scrapbook Media Card */
+.drive-media-card {
+  position: relative;
+  width: 100%;
+  background: #faf5ee;
+  border: 1px solid rgba(190, 160, 130, 0.32);
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: var(--shadow-paper);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  cursor: pointer;
+}
+
+/* Organic Rotation Angles */
+.drive-media-card.tilt-left {
+  transform: rotate(-1.3deg);
+}
+
+.drive-media-card.tilt-right {
+  transform: rotate(1.4deg);
+}
+
+.drive-media-card.tilt-left-sm {
+  transform: rotate(-0.8deg);
+}
+
+.drive-media-card.tilt-right-sm {
+  transform: rotate(1.0deg);
+}
+
+.drive-media-card:hover {
+  transform: translateY(-8px) rotate(0deg) scale(1.02);
+  box-shadow: var(--shadow-card-hover);
+  z-index: 5;
+}
+
+/* Media Frame (Image & Video) - Dynamic Native Aspect Ratio */
+.media-photo-frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid rgba(160, 130, 100, 0.25);
+  background: #eee4d8;
+  margin-bottom: 14px;
+  display: block;
+  line-height: 0;
+}
+
+/* When aspect-ratio style is provided, preserve exact bounds */
+.media-photo-frame[style*="aspect-ratio"] .media-thumbnail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* When aspect-ratio style is not yet provided, let image natural height flow */
+.media-photo-frame:not([style*="aspect-ratio"]) .media-thumbnail-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.media-thumbnail-img {
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  display: block;
+}
+
+.drive-media-card:hover .media-thumbnail-img {
+  transform: scale(1.04);
+}
+
+/* Video Badge */
+.video-motion-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(20, 15, 10, 0.75);
+  backdrop-filter: blur(6px);
+  color: #f7e6c4;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(220, 185, 120, 0.4);
+  z-index: 4;
+}
+
+.video-play-glyph {
+  font-size: 10px;
+}
+
+/* Resolution Tag */
+.media-res-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(253, 248, 240, 0.9);
+  backdrop-filter: blur(4px);
+  color: var(--color-ink-primary);
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(190, 160, 130, 0.4);
+  z-index: 4;
+}
+
+/* Card Body & Details */
+.media-card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.media-clean-title {
+  font-family: var(--font-editorial);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-ink-primary);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.media-meta-specs {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  color: var(--color-ink-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta-spec-dot {
+  color: var(--color-gold);
+}
+
+.media-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid rgba(190, 160, 130, 0.22);
+}
+
+.btn-inspect-frame {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  font-family: var(--font-editorial);
+  font-size: 16px;
+  color: var(--color-ink-primary);
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-inspect-frame:hover {
+  color: var(--color-gold);
+  transform: translateX(3px);
+}
+
+.btn-download-quick {
+  background: none;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  transition: color 0.2s ease;
+}
+
+.btn-download-quick:hover {
+  color: var(--color-gold);
+}
+
+/* Card Corner Wax Seal / Botanical */
+.card-corner-seal {
+  position: absolute;
+  bottom: 50px;
+  right: -10px;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 6;
+  filter: drop-shadow(0 4px 8px rgba(70, 40, 20, 0.3));
+}
+
+/* --------------------------------------------------------------------------
+   5. BOTTOM ARCHIVE CALL TO ACTION
+   -------------------------------------------------------------------------- */
+.gallery-bottom-cta {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto clamp(60px, 8vw, 100px) auto;
+  position: relative;
+  z-index: 10;
+}
+
+.bottom-cta-inner {
+  background: #faf4ea;
+  border: 1px solid rgba(185, 155, 120, 0.38);
+  border-radius: 12px;
+  padding: clamp(32px, 5vw, 60px) clamp(20px, 4vw, 48px);
+  box-shadow: 0 20px 50px rgba(60, 45, 30, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.bottom-cta-botanical {
+  position: absolute;
+  top: -30px;
+  right: -18px;
+  width: 90px;
+  pointer-events: none;
+  transform: rotate(20deg);
+  filter: drop-shadow(0 6px 12px rgba(60, 45, 30, 0.15));
+}
+
+.bottom-subtag {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.bottom-script-title {
+  font-family: var(--font-script);
+  font-size: clamp(40px, 4.5vw, 64px);
+  color: var(--color-ink-primary);
+  line-height: 1.12;
+  margin-bottom: 14px;
+}
+
+.bottom-desc {
+  font-family: var(--font-editorial);
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+  max-width: 680px;
+  margin: 0 auto 28px auto;
+}
+
+.bottom-btn-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   6. HIGH-DEFINITION SCRAPBOOK LIGHTBOX MODAL
+   -------------------------------------------------------------------------- */
+.gallery-lightbox-overlay {
+  padding: clamp(12px, 3vw, 36px);
+}
+
+.lightbox-frame {
+  width: 100%;
+  max-width: 1300px;
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  background: #fbf7f0;
+  border: 1px solid rgba(190, 160, 130, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 28px 70px rgba(30, 20, 10, 0.35);
+  overflow: hidden;
+  padding: 0;
+}
+
+.lightbox-stage-container {
+  position: relative;
+  width: 100%;
+  background: #18130e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 480px;
+  max-height: 70vh;
+  overflow: hidden;
+}
+
+.lightbox-image-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.lightbox-main-img {
+  max-width: 100%;
+  max-height: 66vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-video-wrap {
+  width: 100%;
+  height: 66vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-video-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Chevrons */
+.lightbox-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 10;
+}
+
+.lightbox-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--color-ink-primary);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.lightbox-nav-btn.nav-prev {
+  left: 20px;
+}
+
+.lightbox-nav-btn.nav-next {
+  right: 20px;
+}
+
+/* Lightbox Details Footer */
+.lightbox-details-footer {
+  padding: 22px 28px;
+  background: #faf4eb;
+  border-top: 1px solid rgba(190, 160, 130, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.lightbox-meta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lightbox-subtag {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  font-weight: 600;
+}
+
+.lightbox-script-title {
+  font-family: var(--font-editorial);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-ink-primary);
+}
+
+.lightbox-meta-specs {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--color-ink-muted);
+}
+
+.lightbox-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   7. RESPONSIVE DESIGN FOR GALLERY
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .drive-scrapbook-grid {
+    gap: 16px;
+  }
+
+  .gallery-masonry-col {
+    gap: 20px;
+  }
+
+  .gallery-nav-links {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .drive-scrapbook-grid {
+    gap: 10px;
+    width: 100%;
+  }
+
+  .gallery-masonry-col {
+    gap: 14px;
+  }
+
+  .drive-media-card {
+    padding: 12px;
+    transform: none !important;
+  }
+
+  .media-clean-title {
+    font-size: 17px;
+  }
+
+  .media-meta-specs {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .vault-sync-bar {
+    border-radius: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lightbox-stage-container {
+    min-height: 320px;
+  }
+
+  .lightbox-details-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lightbox-action-buttons {
+    width: 100%;
+  }
+
+  .lightbox-action-buttons .lumina-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .lightbox-nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
+}

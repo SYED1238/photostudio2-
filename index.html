@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina Studio — Boutique Photo Studio | Natural Light & Timeless Stories</title>
+  <meta name="description"
+    content="Lumina Studio is a boutique photography studio specializing in golden hour natural light, intimate weddings, family legacies, and timeless editorial portraiture.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c9a875'><circle cx='12' cy='12' r='10'/><path d='M12 6v12M6 12h12' stroke='%23fff' stroke-width='1.5'/></svg>">
+
+  <!-- Google Fonts: Alex Brush, Pinyon Script, Cormorant Garamond, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Ambient Botanical Leaf Shadows & Sunlight Glow -->
+  <div class="ambient-sunlight-overlay" aria-hidden="true"></div>
+  <div class="ambient-leaf-shadow" aria-hidden="true"></div>
+
+  <!-- Interactive Golden Stardust & Particle Canvas -->
+  <canvas id="stardustCanvas" class="stardust-canvas"></canvas>
+
+  <!-- Main Scrapbook Page Container -->
+  <div class="scrapbook-viewport">
+
+    <!-- Top Torn Paper Navigation Bar -->
+    <header class="top-nav-container">
+      <nav class="torn-paper-navbar" aria-label="Main Navigation">
+        <div class="torn-paper-bg" aria-hidden="true"></div>
+        <ul class="nav-links-list">
+          <li><a href="gallery.html" class="nav-link-script" id="navGallery">Gallery Vault</a></li>
+          <li><a href="#disciplines" class="nav-link-script" id="navDisciplines">Disciplines</a></li>
+          <li><a href="#journal" class="nav-link-script" id="navJournal">Journal</a></li>
+          <li><a href="#investment" class="nav-link-script" id="navInvestment">Collections</a></li>
+          <li><a href="#reservation" class="nav-link-script" id="navReservation">Reserve</a></li>
+        </ul>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Mobile Navigation">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+        </button>
+      </nav>
+
+      <!-- Mobile Slide Drawer -->
+      <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
+        <ul class="mobile-links-list">
+          <li><a href="gallery.html" class="mobile-link-script">Gallery Vault (81 Artifacts)</a></li>
+          <li><a href="#disciplines" class="mobile-link-script" data-scroll="disciplines">Disciplines</a></li>
+          <li><a href="#journal" class="mobile-link-script" data-scroll="journal">Field Journal</a></li>
+          <li><a href="#investment" class="mobile-link-script" data-scroll="investment">Collections</a></li>
+          <li><a href="#reservation" class="mobile-link-script" data-scroll="reservation">Reserve</a></li>
+          <li><button class="mobile-book-btn" id="mobileBtnBook">Book a Session</button></li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- Main Editorial Showcase Canvas -->
+    <main class="scrapbook-stage">
+
+      <!-- LEFT COLUMN: Large meadow couple portrait with wax seal, dried botanicals, and torn kraft paper -->
+      <section class="stage-col col-left" aria-label="Featured Story">
+        <div class="card-wrapper card-interactive" data-caption="Sunlight Devotion — Spain Edition">
+          <div class="left-card-frame">
+            <img src="assets/card_left_full.png"
+              alt="Intimate couple portrait embracing in sunlit summer wheat meadow"
+              class="scrapbook-card-img img-left" loading="eager" />
+
+            <!-- Interactive Wax Seal Stamp hotspot -->
+            <button class="wax-seal-hotspot" id="btnWaxSeal" title="Authentic Lumina Atelier Wax Seal">
+              <span class="sr-only">Atelier Seal of Authenticity</span>
+            </button>
+
+            <!-- Card Interactive Tag -->
+            <div class="card-caption-tag">
+              <span class="tag-star">✦</span>
+              <span>Intimate Wheatfields</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CENTER COLUMN: Brand Typography, Headline, View Gallery CTA, Family Meadow Photo, Our Stories, Read More -->
+      <section class="stage-col col-center" aria-label="Lumina Studio Introduction">
+
+        <!-- Studio Branding Header -->
+        <div class="brand-hero-header">
+          <h1 class="brand-hero-title">Lumina Studio</h1>
+          <p class="brand-hero-tagline">boutique photo studio</p>
+
+          <!-- Primary Call To Action Button -->
+          <div class="cta-btn-wrap">
+            <button class="lumina-btn lumina-btn-primary" id="btnViewGallery" aria-label="View Photography Gallery">
+              <span class="btn-text">View Gallery</span>
+              <span class="btn-glow-ring"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Center Family Meadow Photo Card -->
+        <div class="center-photo-container">
+          <div class="card-wrapper card-interactive center-card-box" data-caption="Golden Hour Family — Sunset Haven">
+            <!-- Frosted tape at top -->
+            <div class="washi-tape tape-center-top" aria-hidden="true"></div>
+
+            <img src="assets/card_center.png"
+              alt="Warm golden hour family photo with parents embracing toddler"
+              class="scrapbook-card-img img-center" loading="eager" />
+
+            <!-- Golden stardust sparkle badge -->
+            <div class="stardust-badge-glow" aria-hidden="true"></div>
+          </div>
+
+          <!-- Section Script Headline: Our Stories -->
+          <div class="story-headline-block">
+            <h2 class="script-headline">Our Stories</h2>
+            <div class="cta-btn-wrap">
+              <button class="lumina-btn lumina-btn-secondary" id="btnReadMore" aria-label="Read Studio Stories">
+                <span class="btn-text">Read More</span>
+                <span class="btn-glow-ring"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN: Top daisy portrait with vellum glass, Journal headline, Bottom hand daisy photo, Book Session -->
+      <section class="stage-col col-right" aria-label="Journal and Book Session">
+
+        <!-- Top Right Photo Card: Daisy Silhouette & Lens Flare -->
+        <div class="right-top-container">
+          <div class="card-wrapper card-interactive right-top-box" data-caption="Botanical Whisper — Golden Flare">
+            <img src="assets/card_right_top.png"
+              alt="Sunlit portrait with daisy flower and dreamy lens flare"
+              class="scrapbook-card-img img-right-top" loading="eager" />
+          </div>
+
+          <!-- Script Label: Journal -->
+          <div class="journal-label-wrap">
+            <h2 class="script-headline headline-journal" id="triggerJournal">Journal</h2>
+          </div>
+        </div>
+
+        <!-- Bottom Right Photo Card: Hand Holding Daisy & Book Your Session -->
+        <div class="right-bottom-container">
+          <div class="card-wrapper card-interactive right-bottom-box" data-caption="The Tender Touch of Summer">
+            <img src="assets/card_right_bottom.png"
+              alt="Hand holding a wildflower against sunlit meadow backdrop"
+              class="scrapbook-card-img img-right-bottom" loading="eager" />
+          </div>
+
+          <!-- Script Label: Book Your Session -->
+          <div class="booking-label-wrap">
+            <h2 class="script-headline headline-booking">Book Your Session</h2>
+            <div class="cta-btn-wrap">
+              <button class="lumina-btn lumina-btn-accent" id="btnBookNow" aria-label="Book A Photo Session">
+                <span class="btn-text">Book Now</span>
+                <span class="btn-glow-ring"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- =========================================================================
+         SECTION 2: CURATED DISCIPLINES (Scrapbook Cards Grid)
+         ========================================================================= -->
+    <section class="scrapbook-section disciplines-section" id="disciplines" aria-label="Atelier Disciplines">
+      <!-- Section Header with Script and Botanical Flair -->
+      <div class="section-scrapbook-header">
+        <div class="section-tag-pill">
+          <span class="pill-sparkle">✦</span>
+          <span>THE ATELIER DISCIPLINES</span>
+          <span class="pill-sparkle">✦</span>
+        </div>
+        <h2 class="section-script-title">Crafted in Natural Light</h2>
+        <p class="section-editorial-desc">
+          Four distinct artistic avenues through which we honor your unwritten legacy. Every frame exposed to genuine sunshine and preserved on archival cotton paper.
+        </p>
+      </div>
+
+      <!-- 4-Card Scrapbook Grid -->
+      <div class="disciplines-grid">
+        <!-- Discipline Card 1: Golden Hour Meadow -->
+        <article class="discipline-card card-rotate-left card-interactive" data-caption="Golden Hour Meadow — Vows in Andalusia">
+          <div class="washi-tape tape-card-top-left" aria-hidden="true"></div>
+          <div class="discipline-photo-frame">
+            <img src="assets/couple_meadow.png" alt="Couple embracing in golden sunset field" class="discipline-card-img" loading="lazy" />
+            <div class="card-caption-tag">
+              <span class="tag-star">✦</span>
+              <span>35mm Sunset Grain</span>
+            </div>
+          </div>
+          <div class="discipline-card-body">
+            <h3 class="discipline-title">The Golden Hour Meadow</h3>
+            <p class="discipline-text">
+              Sun-drenched fields, wild oat grasses, and intimate vows whispered as amber twilight falls across the Mediterranean hills.
+            </p>
+            <div class="discipline-specs">
+              <span class="spec-chip">✦ Unposed Romance</span>
+              <span class="spec-chip">✦ Sunset Timing</span>
+            </div>
+            <div class="discipline-btn-wrap">
+              <button class="lumina-btn lumina-btn-secondary btn-discipline-action" data-filter-gallery="couples">
+                <span class="btn-text">Explore Meadow</span>
+                <span class="btn-glow-ring"></span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Discipline Card 2: Heirloom Family Legacy -->
+        <article class="discipline-card card-rotate-right card-interactive" data-caption="Heirloom Family Legacy — First Sunlight">
+          <img src="assets/botanicals_sprig.png" alt="" class="card-botanical-corner botanical-top-right" aria-hidden="true" />
+          <div class="washi-tape tape-card-top" aria-hidden="true"></div>
+          <div class="discipline-photo-frame">
+            <img src="assets/family_field.png" alt="Mother and father embracing toddler in meadow" class="discipline-card-img" loading="lazy" />
+            <div class="card-caption-tag">
+              <span class="tag-star">✦</span>
+              <span>Generations</span>
+            </div>
+          </div>
+          <div class="discipline-card-body">
+            <h3 class="discipline-title">Heirloom Family Legacy</h3>
+            <p class="discipline-text">
+              Gentle motherhood, unhurried embraces, and the fleeting sweetness of childhood recorded without stiff posing or artificial speed.
+            </p>
+            <div class="discipline-specs">
+              <span class="spec-chip">✦ Generational Warmth</span>
+              <span class="spec-chip">✦ Linen Heirlooms</span>
+            </div>
+            <div class="discipline-btn-wrap">
+              <button class="lumina-btn lumina-btn-secondary btn-discipline-action" data-filter-gallery="family">
+                <span class="btn-text">Explore Legacy</span>
+                <span class="btn-glow-ring"></span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Discipline Card 3: Botanical Editorial & Solitude -->
+        <article class="discipline-card card-rotate-left-sm card-interactive" data-caption="Botanical Editorial — Wildflower Glow">
+          <div class="washi-tape tape-card-top-right" aria-hidden="true"></div>
+          <div class="discipline-photo-frame">
+            <img src="assets/portrait_flare.png" alt="Wildflower silhouette with dreamy sun flare" class="discipline-card-img" loading="lazy" />
+            <div class="card-caption-tag">
+              <span class="tag-star">✦</span>
+              <span>Organic Solitude</span>
+            </div>
+          </div>
+          <div class="discipline-card-body">
+            <h3 class="discipline-title">Botanical &amp; Solitude</h3>
+            <p class="discipline-text">
+              Fine-art monographs celebrating delicate wildflowers, morning dew caustics, and quiet self-portraiture in the awakening forest.
+            </p>
+            <div class="discipline-specs">
+              <span class="spec-chip">✦ Fine-Art Monograph</span>
+              <span class="spec-chip">✦ Ambient Caustics</span>
+            </div>
+            <div class="discipline-btn-wrap">
+              <button class="lumina-btn lumina-btn-secondary btn-discipline-action" data-filter-gallery="botanical">
+                <span class="btn-text">Explore Botanical</span>
+                <span class="btn-glow-ring"></span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Discipline Card 4: Slow 120mm Analog & Artifacts -->
+        <article class="discipline-card card-rotate-right-sm card-interactive" data-caption="Handcrafted Artifacts — Hand and Wildflower">
+          <img src="assets/wax_seal.png" alt="" class="card-wax-seal-badge" aria-hidden="true" />
+          <div class="washi-tape tape-card-bottom-left" aria-hidden="true"></div>
+          <div class="discipline-photo-frame">
+            <img src="assets/hand_flower.png" alt="Hand holding freshly picked summer daisy" class="discipline-card-img" loading="lazy" />
+            <div class="card-caption-tag">
+              <span class="tag-star">✦</span>
+              <span>Medium Format</span>
+            </div>
+          </div>
+          <div class="discipline-card-body">
+            <h3 class="discipline-title">Slow Film &amp; Artifacts</h3>
+            <p class="discipline-text">
+              Authentic medium format silver gelatin exposures, hand-torn cotton deckled edges, and heirloom clamshell folios bound in Belgian linen.
+            </p>
+            <div class="discipline-specs">
+              <span class="spec-chip">✦ 100% Archival Cotton</span>
+              <span class="spec-chip">✦ Hasselblad 500C/M</span>
+            </div>
+            <div class="discipline-btn-wrap">
+              <button class="lumina-btn lumina-btn-secondary btn-discipline-action" data-open="aboutModal">
+                <span class="btn-text">Learn Our Craft</span>
+                <span class="btn-glow-ring"></span>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         SECTION 3: OPEN SCRAPBOOK JOURNAL SPREAD (Dual-Page Field Journal)
+         ========================================================================= -->
+    <section class="scrapbook-section journal-spread-section" id="journal" aria-label="Field Journal Spread">
+      <!-- Section Header -->
+      <div class="section-scrapbook-header">
+        <div class="section-tag-pill">
+          <span class="pill-sparkle">✦</span>
+          <span>ATELIER FIELD NOTES</span>
+          <span class="pill-sparkle">✦</span>
+        </div>
+        <h2 class="section-script-title">The Open Scrapbook Journal</h2>
+        <p class="section-editorial-desc">
+          Pages from our traveling diary. Every season we document light studies, handwritten coordinates, and unhurried human stories.
+        </p>
+      </div>
+
+      <!-- Realistic Double-Page Open Linen Sketchbook -->
+      <div class="open-journal-book">
+        <!-- Decorative Dried Botanicals resting on the book edge -->
+        <img src="assets/botanicals_dried_pair.png" alt="" class="journal-decor-botanical" aria-hidden="true" />
+
+        <!-- LEFT SPREAD PAGE: Handwritten Diary & Story Switcher -->
+        <div class="journal-page journal-page-left">
+          <!-- Page Deckled Header -->
+          <div class="journal-page-meta">
+            <span class="journal-coordinates" id="journalCoordinates">Andalusia Atelier &bull; 36.7213° N, 4.4214° W</span>
+            <span class="journal-page-num">Folio p. 28</span>
+          </div>
+
+          <!-- Story Tab Switcher Ribbons -->
+          <div class="journal-tabs-ribbon" role="tablist" aria-label="Journal Entries">
+            <button class="journal-tab-pill active" data-tab="0" role="tab" aria-selected="true">
+              <span>Entry I: Whispers in Amber Grass</span>
+            </button>
+            <button class="journal-tab-pill" data-tab="1" role="tab" aria-selected="false">
+              <span>Entry II: First Light in the Orchard</span>
+            </button>
+            <button class="journal-tab-pill" data-tab="2" role="tab" aria-selected="false">
+              <span>Entry III: Wildflower Caustics</span>
+            </button>
+          </div>
+
+          <!-- Journal Text Body -->
+          <div class="journal-entry-content">
+            <h3 class="journal-entry-title" id="journalTitle">Whispers in the Amber Grass</h3>
+            
+            <p class="journal-entry-lead" id="journalLead">
+              "The late afternoon sun had melted into liquid amber over the southern foothills. We walked with Clara and Julian through waist-high wheat, waiting not for posed smiles, but for the breath between words."
+            </p>
+
+            <blockquote class="journal-entry-quote" id="journalQuote">
+              &ldquo;The most honest photographs are never taken; they are surrendered to the light.&rdquo;
+            </blockquote>
+
+            <p class="journal-entry-body" id="journalBody">
+              In this session, we chose medium format 120mm color negative film. The grain holds the warmth of that specific soil, the wind that rustled the dry thistle, and the genuine laughter of two people who forgot a camera was present.
+            </p>
+
+            <!-- Handwritten Technical Stamp & Date -->
+            <div class="journal-handwritten-footer">
+              <span class="handwritten-stamp" id="journalStamp">October 14 &bull; Hasselblad 500C/M &bull; Kodak Portra 400 &bull; Natural Light Only</span>
+            </div>
+
+            <!-- Interactivity buttons -->
+            <div class="journal-actions-row">
+              <button class="journal-audio-btn" id="btnJournalChime" aria-label="Play Meadow Chime Atmosphere">
+                <span class="chime-symbol">✨</span>
+                <span class="chime-text">Listen to Meadow Chime</span>
+              </button>
+              <button class="lumina-btn lumina-btn-primary" data-open="storyModal">
+                <span class="btn-text">Read Full Monograph</span>
+                <span class="btn-glow-ring"></span>
+              </button>
+            </div>
+          </div>
+        </div><!-- /.journal-page-left -->
+
+        <!-- Center Book Binding Stitch Crease -->
+        <div class="journal-book-spine" aria-hidden="true">
+          <div class="spine-thread"></div>
+        </div>
+
+        <!-- RIGHT SPREAD PAGE: Layered Photo Collage with Washi Tape -->
+        <div class="journal-page journal-page-right">
+          <div class="journal-page-meta">
+            <span class="journal-plate-num" id="journalPlateNum">Plate No. 42 &bull; Andalusia Summer Edition</span>
+            <span class="journal-page-num">Folio p. 29</span>
+          </div>
+
+          <!-- Collage of Taped Photos -->
+          <div class="journal-collage-stage">
+            <!-- Background Polaroid Tucked Behind -->
+            <div class="journal-polaroid-tucked card-interactive" id="journalPolaroidTucked" data-caption="Sunlight Details &bull; Daisy Petals">
+              <div class="washi-tape tape-polaroid-angle" aria-hidden="true"></div>
+              <img src="assets/detail_daisy.png" alt="Wildflower petal detail" class="polaroid-tucked-img" id="journalSubImg" />
+              <p class="polaroid-tucked-note" id="journalSubCaption">Caustics at 18:40</p>
+            </div>
+
+            <!-- Main Primary Scrapbook Photo -->
+            <div class="journal-main-photo-frame card-interactive" id="journalMainPhotoFrame" data-caption="Intimate Couple in Wheat Meadow">
+              <div class="washi-tape tape-main-top" aria-hidden="true"></div>
+              <div class="washi-tape tape-main-bottom-right" aria-hidden="true"></div>
+              
+              <img src="assets/couple_intimate.png" alt="Intimate couple portrait" class="journal-featured-img" id="journalMainImg" />
+              
+              <!-- Wax Seal Stamp in corner -->
+              <img src="assets/wax_seal.png" alt="Lumina Wax Seal" class="journal-wax-seal" aria-hidden="true" />
+            </div>
+
+            <!-- Handwritten Script Margin Scribble -->
+            <div class="journal-margin-scribble">
+              <span class="scribble-arrow">⤴</span>
+              <span class="scribble-text" id="journalScribbleText">Notice how the lens flare paints across the linen dress naturally</span>
+            </div>
+          </div>
+        </div><!-- /.journal-page-right -->
+      </div><!-- /.open-journal-book -->
+    </section>
+
+
+    <!-- =========================================================================
+         SECTION 4: SESSION OFFERINGS & INVESTMENT (Heirloom Folio Packages)
+         ========================================================================= -->
+    <section class="scrapbook-section investment-section" id="investment" aria-label="Curated Collections & Investment">
+      <!-- Section Header -->
+      <div class="section-scrapbook-header">
+        <div class="section-tag-pill">
+          <span class="pill-sparkle">✦</span>
+          <span>CURATED COMMISSIONS</span>
+          <span class="pill-sparkle">✦</span>
+        </div>
+        <h2 class="section-script-title">Session Offerings &amp; Investment</h2>
+        <p class="section-editorial-desc">
+          To maintain the deepest artistic intimacy and care, we reserve our calendar to a maximum of four commissions per month. Every collection is tailored with unhurried time and archival cotton preservation.
+        </p>
+      </div>
+
+      <!-- 3-Package Scrapbook Folio Cards -->
+      <div class="investment-folio-grid">
+        <!-- Collection 1: The Meadow Story -->
+        <article class="folio-package-card card-interactive" data-package-name="Golden Hour Meadow Story">
+          <div class="washi-tape tape-package-top" aria-hidden="true"></div>
+          <div class="package-header">
+            <span class="package-serial">Folio Collection I</span>
+            <h3 class="package-title">The Meadow Story</h3>
+            <p class="package-subtitle">Intimate Golden Hour Experience</p>
+            <div class="package-price-wrap">
+              <span class="currency">$</span>
+              <span class="price-value">650</span>
+              <span class="price-suffix">/ experience</span>
+            </div>
+          </div>
+
+          <div class="package-divider" aria-hidden="true"></div>
+
+          <ul class="package-features-list">
+            <li><span class="feature-star">✦</span> 90 minutes of unhurried golden hour natural light</li>
+            <li><span class="feature-star">✦</span> Single outdoor haven (Meadow, Coastal Cliff, or Orchard)</li>
+            <li><span class="feature-star">✦</span> 45 hand-developed fine art digital negatives</li>
+            <li><span class="feature-star">✦</span> Curated styling &amp; natural lighting consultation</li>
+            <li><span class="feature-star">✦</span> Private passworded online viewing gallery</li>
+            <li><span class="feature-star">✦</span> Full personal printing &amp; archival release</li>
+          </ul>
+
+          <div class="package-footer-wrap">
+            <button class="lumina-btn lumina-btn-secondary btn-select-package" data-package="Golden Hour Meadow Story">
+              <span class="btn-text">Select Collection</span>
+              <span class="btn-glow-ring"></span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Collection 2: The Signature Heirloom (Featured with Bronze Wax Seal!) -->
+        <article class="folio-package-card folio-card-featured card-interactive" data-package-name="Family Legacy &amp; First Light">
+          <!-- Featured Wax Ribbon Badge -->
+          <div class="package-featured-badge">
+            <img src="assets/wax_seal.png" alt="Bronze Wax Seal" class="featured-seal-img" />
+            <span class="featured-ribbon-text">Most Cherished Atelier Choice</span>
+          </div>
+
+          <div class="washi-tape tape-package-top-gold" aria-hidden="true"></div>
+          
+          <div class="package-header">
+            <span class="package-serial">Folio Collection II</span>
+            <h3 class="package-title">The Signature Heirloom</h3>
+            <p class="package-subtitle">Generational Legacy &amp; Analog Medium Format</p>
+            <div class="package-price-wrap">
+              <span class="currency">$</span>
+              <span class="price-value">1,250</span>
+              <span class="price-suffix">/ experience</span>
+            </div>
+          </div>
+
+          <div class="package-divider" aria-hidden="true"></div>
+
+          <ul class="package-features-list">
+            <li><span class="feature-star">✦</span> Up to 3 hours through golden sunset and twilight glow</li>
+            <li><span class="feature-star">✦</span> Dual locations: Private home atelier &amp; wild meadow</li>
+            <li><span class="feature-star">✦</span> 80+ meticulously color-graded fine art exposures</li>
+            <li><span class="feature-star">✦</span> Authentic 120mm analog film roll developed in darkroom</li>
+            <li><span class="feature-star">✦</span> Handcrafted Belgian linen keepsake folio box</li>
+            <li><span class="feature-star">✦</span> 20 archival cotton deckled-edge museum prints</li>
+            <li><span class="feature-star">✦</span> Lifetime archival cloud vault backup</li>
+          </ul>
+
+          <div class="package-footer-wrap">
+            <button class="lumina-btn lumina-btn-primary btn-select-package" data-package="Family Legacy &amp; First Light">
+              <span class="btn-text">Select Collection</span>
+              <span class="btn-glow-ring"></span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Collection 3: The Atelier Monograph -->
+        <article class="folio-package-card card-interactive" data-package-name="Intimate Wedding / Elopement">
+          <img src="assets/botanicals_sprig.png" alt="" class="package-botanical-corner" aria-hidden="true" />
+          <div class="washi-tape tape-package-top" aria-hidden="true"></div>
+
+          <div class="package-header">
+            <span class="package-serial">Folio Collection III</span>
+            <h3 class="package-title">The Atelier Monograph</h3>
+            <p class="package-subtitle">Intimate Wedding &amp; Destination Immersion</p>
+            <div class="package-price-wrap">
+              <span class="currency">$</span>
+              <span class="price-value">2,800</span>
+              <span class="price-suffix">/ experience</span>
+            </div>
+          </div>
+
+          <div class="package-divider" aria-hidden="true"></div>
+
+          <ul class="package-features-list">
+            <li><span class="feature-star">✦</span> Full day comprehensive destination or elopement coverage</li>
+            <li><span class="feature-star">✦</span> Two artists: Lead editorial director &amp; film documentarian</li>
+            <li><span class="feature-star">✦</span> Unlimited medium format 120mm and 35mm film rolls</li>
+            <li><span class="feature-star">✦</span> 12×12 Heirloom Italian linen album with debossed gold foil</li>
+            <li><span class="feature-star">✦</span> 100+ fine art proof prints housed in handcrafted cedar box</li>
+            <li><span class="feature-star">✦</span> Intimate slide preview evening with fine wine &amp; music</li>
+            <li><span class="feature-star">✦</span> Available worldwide &bull; Europe &amp; Mediterranean travel</li>
+          </ul>
+
+          <div class="package-footer-wrap">
+            <button class="lumina-btn lumina-btn-accent btn-select-package" data-package="Intimate Wedding / Elopement">
+              <span class="btn-text">Select Collection</span>
+              <span class="btn-glow-ring"></span>
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+
+    <!-- =========================================================================
+         SECTION 5: GUESTBOOK LETTERS & RESERVATION ATELIER
+         ========================================================================= -->
+    <section class="scrapbook-section guestbook-booking-section" id="reservation" aria-label="Guestbook Letters and Atelier Reservation">
+      <!-- Section Header -->
+      <div class="section-scrapbook-header">
+        <div class="section-tag-pill">
+          <span class="pill-sparkle">✦</span>
+          <span>HEIRLOOM TESTIMONIALS &bull; RESERVATION DESK</span>
+          <span class="pill-sparkle">✦</span>
+        </div>
+        <h2 class="section-script-title">Letters From Our Families</h2>
+        <p class="section-editorial-desc">
+          Notes sent to our studio desk from lovers, parents, and artists across Europe who entrusted us with their fleeting moments.
+        </p>
+      </div>
+
+      <!-- 3 Postcard Letters Pinned on Linen -->
+      <div class="guestbook-letters-grid">
+        <!-- Letter 1: Postcard from Seville -->
+        <article class="guestbook-postcard card-interactive card-rotate-left">
+          <div class="washi-tape tape-postcard-top" aria-hidden="true"></div>
+          <div class="postcard-stamp-mark">
+            <span class="post-circle">✦ SEVILLE ✦<br>14.10.25</span>
+          </div>
+          <p class="postcard-quote">
+            &ldquo;Julian and Clara captured our wedding not as a fast-paced event, but as a poem. Looking at our prints feels like breathing in that warm Andalusian summer evening all over again. Nothing was forced. Everything was pure light.&rdquo;
+          </p>
+          <div class="postcard-signature">
+            <span class="sig-name">Elena &amp; Marcus Thorne</span>
+            <span class="sig-loc">Andalusia, Spain &bull; Wedding Monograph</span>
+          </div>
+        </article>
+
+        <!-- Letter 2: Postcard from Zurich -->
+        <article class="guestbook-postcard card-interactive card-rotate-right">
+          <img src="assets/botanicals_sprig.png" alt="" class="postcard-botanical" aria-hidden="true" />
+          <div class="washi-tape tape-postcard-top-right" aria-hidden="true"></div>
+          <div class="postcard-stamp-mark">
+            <span class="post-circle">✦ ZURICH ✦<br>03.06.25</span>
+          </div>
+          <p class="postcard-quote">
+            &ldquo;With three wild children under the age of six, we expected total chaos. Clara simply sat in the tall grass with us and let the afternoon unfold. The linen album sits open on our table every single morning.&rdquo;
+          </p>
+          <div class="postcard-signature">
+            <span class="sig-name">Sophie &amp; David Hawthorne</span>
+            <span class="sig-loc">Zurich, Switzerland &bull; Family Legacy</span>
+          </div>
+        </article>
+
+        <!-- Letter 3: Postcard from Provence -->
+        <article class="guestbook-postcard card-interactive card-rotate-left-sm">
+          <img src="assets/wax_seal.png" alt="" class="postcard-wax-seal" aria-hidden="true" />
+          <div class="washi-tape tape-postcard-top-left" aria-hidden="true"></div>
+          <div class="postcard-stamp-mark">
+            <span class="post-circle">✦ PROVENCE ✦<br>28.08.25</span>
+          </div>
+          <p class="postcard-quote">
+            &ldquo;The solo botanical session was quiet, reverent, and healing. They possess a rare gift of seeing who you truly are in the golden flare. The medium format film prints take my breath away.&rdquo;
+          </p>
+          <div class="postcard-signature">
+            <span class="sig-name">Aria Vance</span>
+            <span class="sig-loc">Provence, France &bull; Botanical Monograph</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- IN-PAGE ATELIER RESERVATION DESK -->
+      <div class="inpage-reservation-desk">
+        <div class="reservation-desk-inner">
+          <div class="desk-info-col">
+            <span class="desk-subtag">The Atelier Desk</span>
+            <h3 class="desk-title">Reserve Your Story</h3>
+            <p class="desk-lead">
+              Our diary fills several months in advance to align with peak seasonal light. Reach out to discuss dates, locations, or special heirloom ideas.
+            </p>
+
+            <div class="desk-details-list">
+              <div class="desk-detail-item">
+                <span class="detail-icon">🌿</span>
+                <div>
+                  <strong>Natural Sun Calendar</strong>
+                  <p>Golden Hour sessions begin 90 minutes before civil twilight.</p>
+                </div>
+              </div>
+              <div class="desk-detail-item">
+                <span class="detail-icon">📍</span>
+                <div>
+                  <strong>Primary Havens</strong>
+                  <p>Provence &bull; Zurich &bull; Andalusia &bull; Available for Destination travel.</p>
+                </div>
+              </div>
+              <div class="desk-detail-item">
+                <span class="detail-icon">✉️</span>
+                <div>
+                  <strong>Direct Inquiries</strong>
+                  <p>atelier@luminaphoto.com &bull; +41 (0) 44 211 48 90</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="desk-form-col">
+            <form class="lumina-booking-form inpage-booking-form" id="inpageBookingForm" novalidate>
+              <div class="form-row-2col">
+                <div class="form-group">
+                  <label for="deskName" class="form-label">Your Full Name</label>
+                  <input type="text" id="deskName" name="name" class="form-input" placeholder="e.g. Clara Thorne" required>
+                </div>
+                <div class="form-group">
+                  <label for="deskEmail" class="form-label">Email Address</label>
+                  <input type="email" id="deskEmail" name="email" class="form-input" placeholder="clara@example.com" required>
+                </div>
+              </div>
+
+              <div class="form-row-2col">
+                <div class="form-group">
+                  <label for="deskSessionType" class="form-label">Session Experience</label>
+                  <select id="deskSessionType" name="sessionType" class="form-input form-select" required>
+                    <option value="" disabled selected>Select an experience...</option>
+                    <option value="Golden Hour Meadow Story">The Meadow Story &bull; 90 min ($650)</option>
+                    <option value="Family Legacy &amp; First Light">The Signature Heirloom &bull; 3 hrs ($1,250)</option>
+                    <option value="Intimate Wedding / Elopement">The Atelier Monograph &bull; Full Day ($2,800)</option>
+                    <option value="Botanical Editorial &bull; Solo Portrait">Botanical Editorial &bull; Solo Monograph</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="deskDate" class="form-label">Preferred Date or Season</label>
+                  <input type="date" id="deskDate" name="date" class="form-input" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="deskNotes" class="form-label">Your Vision &amp; Idyllic Location</label>
+                <textarea id="deskNotes" name="notes" rows="3" class="form-input form-textarea"
+                  placeholder="Share a thought on the light, setting, or cherished memories you wish to capture..."></textarea>
+              </div>
+
+              <div class="form-submit-wrap">
+                <button type="submit" class="lumina-btn lumina-btn-accent" id="btnSubmitDeskBooking">
+                  <span class="btn-text">Transmit Reservation Inquiry</span>
+                  <span class="btn-glow-ring"></span>
+                </button>
+              </div>
+            </form>
+
+            <!-- Inline Confirmation card -->
+            <div class="booking-confirmation-card" id="deskBookingConfirmation" style="display:none;">
+              <div class="seal-stamp-animation">
+                <img src="assets/wax_seal.png" alt="Wax Seal" class="confirm-seal-img" />
+              </div>
+              <h3 class="confirm-title">Inquiry Sealed in Our Journal</h3>
+              <p class="confirm-text">
+                Thank you so warmly. We have received your notes and will reply personally within 24 hours with seasonal sunset timing recommendations.
+              </p>
+              <button class="lumina-btn lumina-btn-secondary" id="btnResetDeskBooking">
+                <span class="btn-text">Submit Another Inquiry</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         HANDCRAFTED TORN PAPER STUDIO FOOTER
+         ========================================================================= -->
+    <footer class="studio-torn-footer">
+      <div class="footer-torn-edge" aria-hidden="true"></div>
+      
+      <div class="footer-inner-content">
+        <div class="footer-brand-col">
+          <h2 class="footer-script-brand">Lumina Studio</h2>
+          <p class="footer-tagline">Natural Light Fine-Art Atelier &bull; Est. 2018</p>
+          <p class="footer-mantra">
+            Devoted to the reverence of sunlight, medium format film grain, and heirloom preservation that survives the test of time.
+          </p>
+          <div class="footer-seals-row">
+            <img src="assets/wax_seal.png" alt="Wax Seal" class="footer-seal-mini" />
+            <span>Hand-Sealed &bull; Archival Guarantee</span>
+          </div>
+        </div>
+
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">Navigation</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#hero">The Scrapbook Stage</a></li>
+            <li><a href="#disciplines">Atelier Disciplines</a></li>
+            <li><a href="#journal">Field Journal</a></li>
+            <li><a href="#investment">Investment &amp; Folios</a></li>
+            <li><a href="#reservation">Guestbook &amp; Reservation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">Explore Archives</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#" data-open="galleryModal">Curated Gallery</a></li>
+            <li><a href="#" data-open="storyModal">Journal Issue No. 14</a></li>
+            <li><a href="#" data-open="aboutModal">About Founders Julian &amp; Clara</a></li>
+            <li><a href="#" data-open="contactModal">Direct Transmission</a></li>
+            <li><a href="#" data-open="bookingModal">Atelier Calendar</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4 class="footer-col-title">Havens &bull; Studios</h4>
+          <div class="footer-location-block">
+            <p><strong>Provence</strong> &bull; Olive Hillside Atelier</p>
+            <p><strong>Zurich</strong> &bull; Lake Promenade Studio</p>
+            <p><strong>Andalusia</strong> &bull; Southern Wheat Meadow</p>
+            <p class="footer-email-link">atelier@luminaphoto.com</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div class="footer-bottom-left">
+          <span>&copy; 2026 Lumina Studio Atelier. All rights reserved.</span>
+        </div>
+        <div class="footer-bottom-center">
+          <button class="footer-back-to-top" id="btnBackToTop" aria-label="Return to Top of Scrapbook">
+            <span class="back-arrow">↑</span>
+            <span>Return to Top</span>
+          </button>
+        </div>
+        <div class="footer-bottom-right">
+          <span>Kodak Portra 400 &bull; Hasselblad 500C/M &bull; Cotton Rags</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating Sound & Experience Utilities -->
+    <div class="dock-utility-bar floating-dock">
+      <div class="studio-meta-item">
+        <span class="meta-dot"></span>
+        <span>Natural Light Atelier &bull; Est. 2018</span>
+      </div>
+
+      <div class="sound-toggle-wrap">
+        <button class="sound-toggle-btn" id="btnSoundToggle" aria-label="Toggle Atmosphere Audio">
+          <span class="sound-icon" id="soundIcon">🔔</span>
+          <span class="sound-label" id="soundLabel">Atmosphere: Muted</span>
+        </button>
+      </div>
+
+      <div class="copyright-meta">
+        <span>Crafted for Poetry &amp; Memory.</span>
+      </div>
+    </div>
+
+  </div><!-- /.scrapbook-viewport -->
+
+
+  <!-- =========================================================================
+       MODAL 1: VIEW GALLERY (Polaroid Scrapbook Lightbox)
+       ========================================================================= -->
+  <div class="lumina-modal-overlay" id="galleryModal" aria-hidden="true" role="dialog" aria-labelledby="galleryTitle">
+    <div class="modal-card-frame modal-gallery-box">
+      <!-- Modal Close Button -->
+      <button class="modal-close-btn" data-close="galleryModal" aria-label="Close Gallery">✕</button>
+
+      <!-- Modal Header -->
+      <div class="modal-header-scrapbook">
+        <span class="modal-subtag">Curated Archive</span>
+        <h2 class="modal-script-title" id="galleryTitle">Selected Moments</h2>
+        <p class="modal-desc">Medium format film &amp; unhurried natural light. Every photograph developed with mindful grain and warmth.</p>
+
+        <!-- Category Filters -->
+        <div class="gallery-filter-pills" role="tablist">
+          <button class="filter-pill active" data-filter="all">All Captures</button>
+          <button class="filter-pill" data-filter="couples">Couples &amp; Intimate</button>
+          <button class="filter-pill" data-filter="family">Family &amp; Legacy</button>
+          <button class="filter-pill" data-filter="botanical">Botanical &amp; Details</button>
+        </div>
+      </div>
+
+      <!-- Polaroid Grid -->
+      <div class="polaroid-scrapbook-grid" id="polaroidGrid">
+        <!-- Item 1 -->
+        <article class="polaroid-card" data-category="couples">
+          <div class="washi-tape tape-polaroid" aria-hidden="true"></div>
+          <div class="polaroid-photo-frame">
+            <img src="assets/couple_meadow.png" alt="Couple embracing in golden sunset field" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">Golden Hour Vows &bull; Andalusia</p>
+        </article>
+
+        <!-- Item 2 -->
+        <article class="polaroid-card" data-category="family">
+          <div class="washi-tape tape-polaroid" aria-hidden="true"></div>
+          <div class="polaroid-photo-frame">
+            <img src="assets/family_field.png" alt="Parents holding their child in sunlight" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">First Sunlight Together &bull; Haven Ridge</p>
+        </article>
+
+        <!-- Item 3 -->
+        <article class="polaroid-card" data-category="botanical">
+          <div class="washi-tape tape-polaroid" aria-hidden="true"></div>
+          <div class="polaroid-photo-frame">
+            <img src="assets/portrait_flare.png" alt="Delicate backlit wildflower with lens flare" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">Wild Meadow Daisy &bull; 35mm Gold</p>
+        </article>
+
+        <!-- Item 4 -->
+        <article class="polaroid-card" data-category="botanical">
+          <div class="washi-tape tape-polaroid" aria-hidden="true"></div>
+          <div class="polaroid-photo-frame">
+            <img src="assets/hand_flower.png" alt="Hand holding a flower in afternoon light" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">The Touch of August &bull; Meadowbloom</p>
+        </article>
+
+        <!-- Item 5 -->
+        <article class="polaroid-card" data-category="couples">
+          <div class="washi-tape tape-polaroid" aria-hidden="true"></div>
+          <div class="polaroid-photo-frame">
+            <img src="assets/card_left_full.png" alt="Editorial scrapbook wedding portrait" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">Atelier Monograph &bull; Spain Edition</p>
+        </article>
+
+        <!-- Item 6 -->
+        <article class="polaroid-card" data-category="botanical">
+          <div class="washi-tape tape-polaroid" aria-hidden="true"></div>
+          <div class="polaroid-photo-frame">
+            <img src="assets/detail_daisy.png" alt="Macro lens flower petal detail" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">Sunburst Petals &bull; Natural Caustics</p>
+        </article>
+      </div>
+
+      <!-- Modal Bottom Action -->
+      <div class="modal-footer-action">
+        <button class="lumina-btn lumina-btn-accent" data-open="bookingModal">
+          <span class="btn-text">Reserve Your Date</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       MODAL 2: OUR STORIES & JOURNAL (Editorial Reader)
+       ========================================================================= -->
+  <div class="lumina-modal-overlay" id="storyModal" aria-hidden="true" role="dialog" aria-labelledby="storyTitle">
+    <div class="modal-card-frame modal-story-box">
+      <button class="modal-close-btn" data-close="storyModal" aria-label="Close Story">✕</button>
+
+      <div class="story-article-body">
+        <span class="modal-subtag">Journal Issue No. 14</span>
+        <h2 class="modal-script-title" id="storyTitle">The Poetry of Ordinary Sunlight</h2>
+
+        <div class="story-hero-media">
+          <img src="assets/family_field.png" alt="Family embracing in field" class="story-banner-img" />
+        </div>
+
+        <div class="story-text-columns">
+          <p class="story-lead">
+            We believe that true beauty cannot be staged with artificial flashes or stiff choreography. It lives in the unposed glance between mother and child, the gentle drift of late summer wind across a wheat field, and the soft amber light that lingers just before dusk.
+          </p>
+
+          <blockquote class="story-quote">
+            &ldquo;Photography is not the capture of light, but the reverence of what light chooses to touch.&rdquo;
+          </blockquote>
+
+          <p>
+            At Lumina Studio, every commission is approached with deliberate patience. We use vintage analog glass and warm color palettes inspired by centuries of botanical sketchbooks and linen journals. Whether we are photographing your first child or an intimate vow exchange in the Mediterranean hills, our goal is to deliver memories that age like heirloom parchment.
+          </p>
+
+          <div class="story-signature-block">
+            <p class="signature-note">With quiet devotion,</p>
+            <p class="signature-name">Julian &amp; Clara Vane</p>
+            <span class="signature-caption">Founders &bull; Lumina Atelier</span>
+          </div>
+        </div>
+
+        <div class="modal-footer-action">
+          <button class="lumina-btn lumina-btn-primary" data-open="bookingModal">
+            <span class="btn-text">Inquire About Sessions</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       MODAL 3: BOOK YOUR SESSION (Interactive Reservation)
+       ========================================================================= -->
+  <div class="lumina-modal-overlay" id="bookingModal" aria-hidden="true" role="dialog" aria-labelledby="bookingTitle">
+    <div class="modal-card-frame modal-booking-box">
+      <button class="modal-close-btn" data-close="bookingModal" aria-label="Close Reservation">✕</button>
+
+      <div class="modal-header-scrapbook">
+        <span class="modal-subtag">Reserve an Experience</span>
+        <h2 class="modal-script-title" id="bookingTitle">Book Your Session</h2>
+        <p class="modal-desc">Please share your vision. We accept a limited number of bespoke sessions each season to preserve absolute care and artistry.</p>
+      </div>
+
+      <!-- Booking Form -->
+      <form class="lumina-booking-form" id="bookingForm" novalidate>
+        <div class="form-row-2col">
+          <div class="form-group">
+            <label for="clientName" class="form-label">Full Name</label>
+            <input type="text" id="clientName" name="name" class="form-input" placeholder="e.g. Clara Thorne" required>
+          </div>
+          <div class="form-group">
+            <label for="clientEmail" class="form-label">Email Address</label>
+            <input type="email" id="clientEmail" name="email" class="form-input" placeholder="clara@example.com" required>
+          </div>
+        </div>
+
+        <div class="form-row-2col">
+          <div class="form-group">
+            <label for="sessionType" class="form-label">Session Experience</label>
+            <select id="sessionType" name="sessionType" class="form-input form-select" required>
+              <option value="" disabled selected>Select an experience...</option>
+              <option value="Golden Hour Meadow Story">Golden Hour Meadow Story &bull; 90 min</option>
+              <option value="Intimate Wedding / Elopement">Intimate Wedding / Elopement &bull; Half Day</option>
+              <option value="Family Legacy &amp; First Light">Family Legacy &amp; First Light &bull; 2 hours</option>
+              <option value="Botanical Editorial &bull; Solo Portrait">Botanical Editorial &bull; Solo Portrait</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="sessionDate" class="form-label">Preferred Date</label>
+            <input type="date" id="sessionDate" name="date" class="form-input" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="sessionNotes" class="form-label">Your Vision &amp; Special Location</label>
+          <textarea id="sessionNotes" name="notes" rows="3" class="form-input form-textarea"
+            placeholder="Tell us about the light, the people, or the season you envision..."></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-submit-wrap">
+          <button type="submit" class="lumina-btn lumina-btn-accent" id="btnSubmitBooking">
+            <span class="btn-text">Confirm &bull; Request Booking</span>
+            <span class="btn-glow-ring"></span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Confirmation Card (Hidden until submitted) -->
+      <div class="booking-confirmation-card" id="bookingConfirmation" style="display:none;">
+        <div class="seal-stamp-animation">
+          <img src="assets/wax_seal.png" alt="Wax Seal" class="confirm-seal-img" />
+        </div>
+        <h3 class="confirm-title">Reservation Transmitted</h3>
+        <p class="confirm-text">Thank you. Your inquiry has been sealed in our atelier journal. Clara will contact you within 24 hours with session preparations and sunset coordinates.</p>
+        <button class="lumina-btn lumina-btn-secondary" data-close="bookingModal">
+          <span class="btn-text">Close Journal</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       MODAL 4: ABOUT ATELIER
+       ========================================================================= -->
+  <div class="lumina-modal-overlay" id="aboutModal" aria-hidden="true" role="dialog" aria-labelledby="aboutTitle">
+    <div class="modal-card-frame modal-about-box">
+      <button class="modal-close-btn" data-close="aboutModal" aria-label="Close About">✕</button>
+
+      <div class="modal-header-scrapbook">
+        <span class="modal-subtag">The Atelier</span>
+        <h2 class="modal-script-title" id="aboutTitle">About Lumina Studio</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-photo-col">
+          <img src="assets/card_left_full.png" alt="Lumina founders" class="about-card-img" />
+        </div>
+        <div class="about-content-col">
+          <h3 class="about-heading">Devoted to the Warmth of Human Connection</h3>
+          <p>Founded in 2018, Lumina Studio operates at the intersection of classical fine-art painting and slow, analog photography. We do not chase sterile trends or algorithmic poses.</p>
+          <p>Our studio travels between sunlit olive groves, coastal cliffs, and quiet family homes, crafting imagery that feels as tender decades later as the afternoon it was recorded.</p>
+          <div class="about-badges-row">
+            <div class="badge-item"><span>✦ 100% Natural Light</span></div>
+            <div class="badge-item"><span>✦ Archival Cotton Prints</span></div>
+            <div class="badge-item"><span>✦ Handcrafted Books</span></div>
+          </div>
+          <button class="lumina-btn lumina-btn-primary" data-open="galleryModal">
+            <span class="btn-text">Explore Our Work</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       MODAL 5: CONTACT ATELIER
+       ========================================================================= -->
+  <div class="lumina-modal-overlay" id="contactModal" aria-hidden="true" role="dialog" aria-labelledby="contactTitle">
+    <div class="modal-card-frame modal-contact-box">
+      <button class="modal-close-btn" data-close="contactModal" aria-label="Close Contact">✕</button>
+
+      <div class="modal-header-scrapbook">
+        <span class="modal-subtag">Direct Transmission</span>
+        <h2 class="modal-script-title" id="contactTitle">Reach Our Atelier</h2>
+        <p class="modal-desc">We welcome inquiries for local sessions, destination weddings, and collaborative fine-art commissions.</p>
+      </div>
+
+      <div class="contact-details-grid">
+        <div class="contact-card">
+          <span class="contact-icon">📍</span>
+          <h4>Studio Address</h4>
+          <p>42 Meadowbrook Lane<br>Provence &bull; Andalusia &bull; Zurich</p>
+        </div>
+        <div class="contact-card">
+          <span class="contact-icon">✉️</span>
+          <h4>Direct Journal</h4>
+          <p>atelier@luminaphoto.com<br>sessions@luminaphoto.com</p>
+        </div>
+        <div class="contact-card">
+          <span class="contact-icon">📞</span>
+          <h4>Telephone / Signal</h4>
+          <p>+41 (0) 44 211 48 90<br>Monday &ndash; Friday, 10am &ndash; 6pm</p>
+        </div>
+      </div>
+
+      <div class="modal-footer-action">
+        <button class="lumina-btn lumina-btn-accent" data-open="bookingModal">
+          <span class="btn-text">Schedule a Session</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Fullscreen Lightbox Preview for Photos -->
+  <div class="lightbox-overlay" id="lightboxOverlay" aria-hidden="true">
+    <button class="lightbox-close-btn" id="lightboxCloseBtn" aria-label="Close Preview">✕</button>
+    <div class="lightbox-content">
+      <img src="" alt="" id="lightboxImg" class="lightbox-img" />
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
