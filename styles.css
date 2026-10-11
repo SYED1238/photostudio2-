@@ -2534,6 +2534,55 @@ body::before {
 }
 
 @media (max-width: 768px) {
+  /* Low-RAM & Battery Optimization on Mobile */
+  .stardust-canvas {
+    display: none !important;
+  }
+
+  body::before {
+    display: none !important; /* Disable CPU-heavy SVG noise turbulence on mobile */
+  }
+
+  .ambient-leaf-shadow {
+    animation: none !important; /* Stop 60fps compositor repaint loop */
+    filter: blur(20px) !important;
+    opacity: 0.45 !important;
+  }
+
+  .ambient-sunlight-overlay {
+    filter: blur(30px) !important;
+    opacity: 0.55 !important;
+  }
+
+  /* Content-visibility for fast rendering and low RAM on offscreen sections */
+  .discipline-card,
+  .guestbook-postcard,
+  .investment-tier-card,
+  .journal-open-spread {
+    content-visibility: auto;
+    contain-intrinsic-size: 450px;
+    touch-action: manipulation;
+  }
+
+  .discipline-card:hover,
+  .guestbook-postcard:hover {
+    transform: none !important;
+    box-shadow: var(--shadow-paper) !important;
+  }
+
+  .discipline-card:hover .discipline-card-img {
+    transform: none !important;
+  }
+
+  button,
+  a,
+  .mobile-menu-btn,
+  .wax-seal-hotspot,
+  .card-interactive {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   .disciplines-grid {
     grid-template-columns: 1fr;
     max-width: 500px;

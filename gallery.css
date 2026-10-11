@@ -440,6 +440,35 @@
   cursor: pointer;
   content-visibility: auto;
   contain-intrinsic-size: 320px 480px;
+  touch-action: manipulation;
+}
+
+/* Scroll Sentinel for On-Demand Streaming */
+.gallery-scroll-sentinel {
+  width: 100%;
+  height: 24px;
+  margin: 12px 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* End of Archive Seal */
+.gallery-end-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 36px 16px 20px 16px;
+  color: var(--color-ink-muted);
+  font-family: var(--font-editorial);
+  font-size: 16px;
+  font-style: italic;
+  text-align: center;
+}
+
+.end-seal-glyph {
+  color: var(--color-gold);
+  font-size: 14px;
 }
 
 /* Organic Rotation Angles */
@@ -913,6 +942,25 @@
   .drive-media-card {
     padding: 10px 10px 8px 10px;
     transform: none !important;
+    box-shadow: 0 2px 8px rgba(60, 45, 30, 0.06);
+    touch-action: manipulation;
+  }
+
+  .drive-media-card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(60, 45, 30, 0.08);
+  }
+
+  .drive-media-card:hover .media-thumbnail-img {
+    transform: none !important;
+  }
+
+  .archive-pill,
+  .lumina-btn,
+  .lightbox-nav-btn,
+  .modal-close-btn {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .media-card-body {

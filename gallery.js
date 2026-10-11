@@ -554,12 +554,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================================
-     6. Render Dynamic Scrapbook Masonry Columns (Progressive Chunk Loading)
+     6. Render Dynamic Scrapbook Masonry Columns (Low-RAM On-Demand Streaming)
      ========================================================================== */
+  function getOptimizedThumbUrl(url, id) {
+    if (!url) return `https://drive.google.com/thumbnail?id=${id}&sz=w480`;
+    const isMobile = window.innerWidth < 640;
+    const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
+
+    if (url.includes("=w800")) {
+      if (isMobile) return url.replace("=w800", "=w480");
+      if (isTablet) return url.replace("=w800", "=w640");
+    }
+    return url;
+  }
+
   function buildCardMarkup(item, originalIndex) {
     const frameRatioStyle = item.ratioCss
       ? `style="aspect-ratio: ${item.ratioCss};"`
       : (item.aspectRatio ? `style="aspect-ratio: ${item.aspectRatio};"` : "");
+
+    const optimizedThumb = getOptimizedThumbUrl(item.thumbUrl, item.id);
+    const priorityAttr = originalIndex < 3 ? 'fetchpriority="high"' : 'fetchpriority="low"';
+    const fallbackSize = window.innerWidth < 640 ? "w480" : "w800";
 
     return `
       <article class="drive-media-card ${item.tiltClass}" data-index="${originalIndex}">
@@ -571,7 +587,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <!-- Media Photo Frame (Native Aspect Ratio - Zero Crop) -->
         <div class="media-photo-frame" ${frameRatioStyle}>
-          <img src="${item.thumbUrl}" alt="${item.title}" class="media-thumbnail-img" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://drive.google.com/thumbnail?id=${item.id}&sz=w800';" />
+          <img src="${optimizedThumb}" alt="${item.title}" class="media-thumbnail-img" loading="lazy" decoding="async" ${priorityAttr} onerror="this.onerror=null; this.src='https://drive.google.com/thumbnail?id=${item.id}&sz=${fallbackSize}';" />
 
           ${item.isVideo ? `
             <div class="video-motion-badge">
@@ -594,15 +610,23 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  let progressiveRenderTimer = null;
+  let scrollSentinelObserver = null;
+  let activeRenderQueue = [];
+  let activeRenderCols = [];
+  let currentRenderedCount = 0;
 
   function renderGrid(items) {
     if (!galleryGrid) return;
-    if (progressiveRenderTimer) {
-      if ("cancelIdleCallback" in window) cancelIdleCallback(progressiveRenderTimer);
-      else clearTimeout(progressiveRenderTimer);
-      progressiveRenderTimer = null;
+
+    // Disconnect any existing scroll observer
+    if (scrollSentinelObserver) {
+      scrollSentinelObserver.disconnect();
+      scrollSentinelObserver = null;
     }
+
+    const endSeal = document.getElementById("galleryEndOfArchive");
+    if (endSeal) endSeal.style.display = "none";
+
     galleryGrid.innerHTML = "";
 
     const numCols = getColumnCount();
@@ -618,6 +642,8 @@ document.addEventListener("DOMContentLoaded", () => {
       colElements.push(colDiv);
     }
 
+    activeRenderCols = colElements;
+
     // Flatten into ordered queue with target column assignment
     const queue = [];
     columns.forEach((colItems, colIdx) => {
@@ -625,41 +651,89 @@ document.addEventListener("DOMContentLoaded", () => {
         queue.push({ ...entry, colIdx });
       });
     });
-    // Sort by original index for natural interleaving
+    // Sort by original index for natural chronological flow
     queue.sort((a, b) => a.originalIndex - b.originalIndex);
 
-    // Progressive Chunk Rendering (Eliminates main-thread freeze & RAM spikes)
-    const INITIAL_CHUNK = 14;
-    const IDLE_BATCH = 10;
-    let renderedCount = 0;
+    activeRenderQueue = queue;
+    currentRenderedCount = 0;
 
-    function renderNextBatch(count) {
-      const targetEnd = Math.min(renderedCount + count, queue.length);
-      const fragments = Array.from({ length: numCols }, () => "");
+    const isMobileDevice = window.innerWidth <= 768;
+    const initialBatch = isMobileDevice ? 10 : 16;
 
-      for (let i = renderedCount; i < targetEnd; i++) {
-        const { item, originalIndex, colIdx } = queue[i];
-        fragments[colIdx] += buildCardMarkup(item, originalIndex);
-      }
+    // Render immediate initial batch for instant visual display
+    renderNextBatch(initialBatch);
 
-      for (let c = 0; c < numCols; c++) {
-        if (fragments[c]) {
-          colElements[c].insertAdjacentHTML("beforeend", fragments[c]);
-        }
-      }
+    // Setup on-demand streaming sentinel to load more cards only when scrolling
+    setupScrollSentinel();
+  }
 
-      renderedCount = targetEnd;
+  function renderNextBatch(batchSize) {
+    if (!activeRenderQueue || currentRenderedCount >= activeRenderQueue.length) return;
 
-      if (renderedCount < queue.length) {
-        if ("requestIdleCallback" in window) {
-          progressiveRenderTimer = requestIdleCallback(() => renderNextBatch(IDLE_BATCH), { timeout: 120 });
-        } else {
-          progressiveRenderTimer = setTimeout(() => renderNextBatch(IDLE_BATCH), 30);
-        }
+    const numCols = currentColumnCount;
+    const targetEnd = Math.min(currentRenderedCount + batchSize, activeRenderQueue.length);
+    const fragments = Array.from({ length: numCols }, () => "");
+
+    for (let i = currentRenderedCount; i < targetEnd; i++) {
+      const { item, originalIndex, colIdx } = activeRenderQueue[i];
+      fragments[colIdx] += buildCardMarkup(item, originalIndex);
+    }
+
+    for (let c = 0; c < numCols; c++) {
+      if (fragments[c] && activeRenderCols[c]) {
+        activeRenderCols[c].insertAdjacentHTML("beforeend", fragments[c]);
       }
     }
 
-    renderNextBatch(INITIAL_CHUNK);
+    currentRenderedCount = targetEnd;
+
+    if (currentRenderedCount >= activeRenderQueue.length) {
+      if (scrollSentinelObserver) {
+        scrollSentinelObserver.disconnect();
+        scrollSentinelObserver = null;
+      }
+      const endSeal = document.getElementById("galleryEndOfArchive");
+      if (endSeal) endSeal.style.display = "flex";
+    }
+  }
+
+  function setupScrollSentinel() {
+    const sentinel = document.getElementById("galleryScrollSentinel");
+    if (!sentinel) return;
+
+    if (currentRenderedCount >= activeRenderQueue.length) return;
+
+    const isMobileDevice = window.innerWidth <= 768;
+    const scrollBatchSize = isMobileDevice ? 8 : 12;
+
+    if ("IntersectionObserver" in window) {
+      scrollSentinelObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && currentRenderedCount < activeRenderQueue.length) {
+            renderNextBatch(scrollBatchSize);
+          }
+        });
+      }, {
+        rootMargin: "500px 0px 500px 0px",
+        threshold: 0
+      });
+      scrollSentinelObserver.observe(sentinel);
+    } else {
+      // Fallback for older browsers
+      window.addEventListener("scroll", onScrollSentinelFallback, { passive: true });
+    }
+  }
+
+  function onScrollSentinelFallback() {
+    if (currentRenderedCount >= activeRenderQueue.length) {
+      window.removeEventListener("scroll", onScrollSentinelFallback);
+      return;
+    }
+    const isMobileDevice = window.innerWidth <= 768;
+    const scrollBatchSize = isMobileDevice ? 8 : 12;
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 600) {
+      renderNextBatch(scrollBatchSize);
+    }
   }
 
   // Memory-efficient Event Delegation on galleryGrid (replaces 81 listeners)

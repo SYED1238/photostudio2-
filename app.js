@@ -272,7 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function startCanvas() {
-    if (!isCanvasRendering) {
+    if (!isCanvasRendering && !isLowMemoryMobile && !prefersReducedMotion) {
       isCanvasRendering = true;
       animateCanvas();
     }
@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
     else startCanvas();
   });
 
-  if (ctx && !prefersReducedMotion) {
+  if (ctx && !prefersReducedMotion && !isLowMemoryMobile) {
     animateCanvas();
   }
 
