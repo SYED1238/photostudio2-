@@ -268,6 +268,10 @@
           <span class="sound-label" id="soundLabel">Atmosphere: Active</span>
         </button>
       </div>
+      <button class="floating-scroll-top-btn" id="btnFloatingTop" aria-label="Scroll back to top" title="Return to Top">
+        <span class="arrow-glyph">↑</span>
+        <span class="top-label">Top</span>
+      </button>
     </div>
 
   </div><!-- /.scrapbook-viewport -->
@@ -278,8 +282,20 @@
        ========================================================================= -->
   <div class="lumina-modal-overlay gallery-lightbox-overlay" id="galleryLightbox" aria-hidden="true" role="dialog" aria-labelledby="lightboxMediaTitle">
     <div class="modal-card-frame lightbox-frame">
-      <!-- Close Button -->
-      <button class="modal-close-btn" id="btnCloseLightbox" aria-label="Close Lightbox">✕</button>
+      <!-- Lightbox Header Utility Toolbar -->
+      <div class="lightbox-top-toolbar">
+        <div class="lightbox-counter-badge" id="lightboxCounter">1 / 58</div>
+        <div class="lightbox-tool-actions">
+          <button class="lightbox-tool-btn" id="btnShareMedia" aria-label="Share Masterpiece" title="Share or Copy Direct Link">
+            <span class="tool-icon">✦</span>
+            <span>Share</span>
+          </button>
+          <button class="lightbox-tool-btn" id="btnFullscreenMedia" aria-label="Toggle Fullscreen View" title="Full Screen View">
+            <span class="tool-icon">⛶</span>
+          </button>
+          <button class="modal-close-btn" id="btnCloseLightbox" aria-label="Close Lightbox">✕</button>
+        </div>
+      </div>
 
       <!-- Lightbox Media Stage -->
       <div class="lightbox-stage-container">
@@ -318,6 +334,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Notification Toast -->
+  <div class="lumina-toast" id="luminaToast" role="status" aria-live="polite"></div>
 
   <script src="gallery.js"></script>
 </body>

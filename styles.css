@@ -2306,6 +2306,115 @@ body::before {
   margin-top: 2px;
 }
 
+/* Disciplines Section Gallery Bridge Action */
+.disciplines-center-action {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(32px, 4vw, 48px);
+}
+
+/* Desk Quick Inquiries & Actions */
+.desk-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.desk-action-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid rgba(190, 160, 130, 0.45);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--color-ink-primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  touch-action: manipulation;
+}
+
+.desk-action-pill:hover {
+  background: #faf2e6;
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  box-shadow: 0 2px 8px rgba(185, 145, 90, 0.22);
+  transform: translateY(-1px);
+}
+
+/* Floating Back to Top Button */
+.floating-scroll-top-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(245, 235, 220, 0.85);
+  border: 1px solid rgba(190, 160, 130, 0.45);
+  border-radius: 9999px;
+  padding: 5px 12px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-ink-primary);
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  touch-action: manipulation;
+}
+
+.floating-scroll-top-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.floating-scroll-top-btn:hover {
+  background: #ffffff;
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  box-shadow: 0 2px 8px rgba(185, 145, 90, 0.25);
+  transform: translateY(-1px);
+}
+
+.floating-scroll-top-btn .arrow-glyph {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* Lumina Atelier Notification Toast */
+.lumina-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #2b221a;
+  color: #f7eedb;
+  border: 1px solid var(--color-gold);
+  border-radius: 9999px;
+  padding: 10px 22px;
+  font-family: var(--font-editorial);
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 30px rgba(40, 25, 10, 0.4);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lumina-toast.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* ==========================================================================
    HANDCRAFTED TORN PAPER STUDIO FOOTER
    ========================================================================== */

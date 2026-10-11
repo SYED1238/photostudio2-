@@ -788,14 +788,71 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================================
-     13. Back to Top Button & Smooth Nav Scroll
+     13. Back to Top Buttons & Smooth Nav Scroll
      ========================================================================== */
   const btnBackToTop = document.getElementById("btnBackToTop");
+  const btnFloatingTop = document.getElementById("btnFloatingTop");
+
   if (btnBackToTop) {
     btnBackToTop.addEventListener("click", () => {
       initAudio();
       playGoldenChime(783.99);
       window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  if (btnFloatingTop) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 350) {
+        btnFloatingTop.classList.add("visible");
+      } else {
+        btnFloatingTop.classList.remove("visible");
+      }
+    }, { passive: true });
+
+    btnFloatingTop.addEventListener("click", () => {
+      initAudio();
+      playGoldenChime(783.99);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  // Toast notification helper
+  function showToast(msg) {
+    let toast = document.getElementById("luminaToast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "luminaToast";
+      toast.className = "lumina-toast";
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2500);
+  }
+
+  // Copy Email Quick Button in Desk
+  const btnCopyEmail = document.getElementById("btnCopyEmail");
+  const copyEmailText = document.getElementById("copyEmailText");
+  if (btnCopyEmail) {
+    btnCopyEmail.addEventListener("click", () => {
+      initAudio();
+      playGoldenChime(659.25);
+      const email = "atelier@luminaphoto.com";
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(email).then(() => {
+          if (copyEmailText) copyEmailText.textContent = "✓ Copied!";
+          showToast("✦ Studio email copied to clipboard: " + email);
+          setTimeout(() => {
+            if (copyEmailText) copyEmailText.textContent = "📋 Copy Email";
+          }, 2400);
+        });
+      } else {
+        showToast("✦ Studio email: " + email);
+      }
     });
   }
 

@@ -720,6 +720,132 @@
   padding: 0;
 }
 
+/* Lightbox Top Toolbar */
+.lightbox-top-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  background: #f5eedf;
+  border-bottom: 1px solid rgba(190, 160, 130, 0.35);
+  z-index: 20;
+}
+
+.lightbox-counter-badge {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-ink-secondary);
+  letter-spacing: 0.08em;
+  background: rgba(230, 215, 195, 0.6);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(180, 150, 120, 0.3);
+}
+
+.lightbox-tool-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lightbox-tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #ffffff;
+  border: 1px solid rgba(190, 160, 130, 0.45);
+  border-radius: 9999px;
+  padding: 5px 12px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--color-ink-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+}
+
+.lightbox-tool-btn:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  box-shadow: 0 2px 8px rgba(185, 145, 90, 0.22);
+  transform: translateY(-1px);
+}
+
+.lightbox-tool-actions .modal-close-btn {
+  position: static;
+  width: 32px;
+  height: 32px;
+  font-size: 15px;
+}
+
+/* Floating Back to Top Button */
+.floating-scroll-top-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(245, 235, 220, 0.85);
+  border: 1px solid rgba(190, 160, 130, 0.45);
+  border-radius: 9999px;
+  padding: 5px 12px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-ink-primary);
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  touch-action: manipulation;
+}
+
+.floating-scroll-top-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.floating-scroll-top-btn:hover {
+  background: #ffffff;
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  box-shadow: 0 2px 8px rgba(185, 145, 90, 0.25);
+  transform: translateY(-1px);
+}
+
+.floating-scroll-top-btn .arrow-glyph {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* Lumina Atelier Notification Toast */
+.lumina-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #2b221a;
+  color: #f7eedb;
+  border: 1px solid var(--color-gold);
+  border-radius: 9999px;
+  padding: 10px 22px;
+  font-family: var(--font-editorial);
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 30px rgba(40, 25, 10, 0.4);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lumina-toast.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
 .lightbox-stage-container {
   position: relative;
   width: 100%;

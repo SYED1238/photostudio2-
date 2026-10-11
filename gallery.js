@@ -38,6 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnCloseLightbox = document.getElementById("btnCloseLightbox");
   const btnLightboxPrev = document.getElementById("btnLightboxPrev");
   const btnLightboxNext = document.getElementById("btnLightboxNext");
+  const lightboxCounter = document.getElementById("lightboxCounter");
+  const btnShareMedia = document.getElementById("btnShareMedia");
+  const btnFullscreenMedia = document.getElementById("btnFullscreenMedia");
+  const btnFloatingTop = document.getElementById("btnFloatingTop");
 
   // State
   let allArtifacts = [];
@@ -810,6 +814,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       filterAndRenderArtifacts();
     });
+
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && searchInput.value) {
+        searchInput.value = "";
+        currentSearchQuery = "";
+        if (btnClearSearch) btnClearSearch.style.display = "none";
+        filterAndRenderArtifacts();
+      }
+    });
   }
 
   if (btnClearSearch) {
@@ -890,6 +903,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    if (lightboxCounter) {
+      lightboxCounter.textContent = `${index + 1} / ${filteredArtifacts.length}`;
+    }
     if (lightboxTitle) lightboxTitle.textContent = item.title;
     if (lightboxCategory) lightboxCategory.textContent = `✦ ${item.category.toUpperCase()} &bull; ${item.ratioLabel || item.specs} ✦`;
     const resString = item.width && item.height ? ` &bull; ${item.width}×${item.height} Master Negative` : ` &bull; Master Negative`;
@@ -928,6 +944,62 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnCloseLightbox) btnCloseLightbox.addEventListener("click", closeLightbox);
   if (btnLightboxNext) btnLightboxNext.addEventListener("click", nextLightbox);
   if (btnLightboxPrev) btnLightboxPrev.addEventListener("click", prevLightbox);
+
+  // Toast notification helper
+  function showToast(msg) {
+    let toast = document.getElementById("luminaToast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "luminaToast";
+      toast.className = "lumina-toast";
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2500);
+  }
+
+  // Lightbox Share Action (Native Web Share or Copy Link)
+  if (btnShareMedia) {
+    btnShareMedia.addEventListener("click", () => {
+      if (!filteredArtifacts || currentLightboxIndex < 0 || currentLightboxIndex >= filteredArtifacts.length) return;
+      const item = filteredArtifacts[currentLightboxIndex];
+      initAudio();
+      playGoldenChime(659.25);
+
+      if (navigator.share) {
+        navigator.share({
+          title: `${item.title} — Lumina Studio Atelier`,
+          text: `Explore "${item.title}" in the Lumina Studio Curated Masterpiece Vault.`,
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          showToast("✦ Masterpiece archive link copied to clipboard");
+        }).catch(() => {
+          showToast(`✦ ${item.title}`);
+        });
+      }
+    });
+  }
+
+  // Lightbox Fullscreen Toggle
+  if (btnFullscreenMedia) {
+    btnFullscreenMedia.addEventListener("click", () => {
+      initAudio();
+      playGoldenChime(523.25);
+      if (!document.fullscreenElement) {
+        if (lightboxModal.requestFullscreen) lightboxModal.requestFullscreen();
+        else if (lightboxModal.webkitRequestFullscreen) lightboxModal.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    });
+  }
 
   if (lightboxModal) {
     lightboxModal.addEventListener("click", (e) => {
@@ -1008,10 +1080,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Back to top button
+  // Back to top buttons (Footer and Floating Dock)
   const btnBackToTop = document.getElementById("btnBackToTop");
+  const btnFloatingTop = document.getElementById("btnFloatingTop");
+
   if (btnBackToTop) {
     btnBackToTop.addEventListener("click", () => {
+      initAudio();
+      playGoldenChime(783.99);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  if (btnFloatingTop) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 350) {
+        btnFloatingTop.classList.add("visible");
+      } else {
+        btnFloatingTop.classList.remove("visible");
+      }
+    }, { passive: true });
+
+    btnFloatingTop.addEventListener("click", () => {
       initAudio();
       playGoldenChime(783.99);
       window.scrollTo({ top: 0, behavior: "smooth" });

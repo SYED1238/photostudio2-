@@ -309,6 +309,14 @@
           </div>
         </article>
       </div>
+
+      <!-- Direct Archive Bridge Action -->
+      <div class="disciplines-center-action">
+        <a href="gallery.html" class="lumina-btn lumina-btn-primary">
+          <span class="btn-text">✦ Explore 81+ Master Artifacts in Gallery Vault →</span>
+          <span class="btn-glow-ring"></span>
+        </a>
+      </div>
     </section>
 
 
@@ -664,6 +672,14 @@
                   <p>atelier@luminaphoto.com &bull; +41 (0) 44 211 48 90</p>
                 </div>
               </div>
+              <div class="desk-quick-actions">
+                <a href="mailto:atelier@luminaphoto.com?subject=Atelier%20Photography%20Commission" class="desk-action-pill" title="Email Studio Directly">
+                  <span>✉ Email Studio</span>
+                </a>
+                <button type="button" class="desk-action-pill" id="btnCopyEmail" title="Copy Email Address">
+                  <span id="copyEmailText">📋 Copy Email</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -812,6 +828,11 @@
         </button>
       </div>
 
+      <button class="floating-scroll-top-btn" id="btnFloatingTop" aria-label="Scroll back to top" title="Return to Top">
+        <span class="arrow-glyph">↑</span>
+        <span class="top-label">Top</span>
+      </button>
+
       <div class="copyright-meta">
         <span>Crafted for Poetry &amp; Memory.</span>
       </div>
@@ -902,6 +923,10 @@
 
       <!-- Modal Bottom Action -->
       <div class="modal-footer-action">
+        <a href="gallery.html" class="lumina-btn lumina-btn-primary">
+          <span class="btn-text">✦ Open Full Masterpiece Vault (81+ Works) →</span>
+          <span class="btn-glow-ring"></span>
+        </a>
         <button class="lumina-btn lumina-btn-accent" data-open="bookingModal">
           <span class="btn-text">Reserve Your Date</span>
         </button>
@@ -1112,6 +1137,9 @@
       <p class="lightbox-caption" id="lightboxCaption"></p>
     </div>
   </div>
+
+  <!-- Notification Toast -->
+  <div class="lumina-toast" id="luminaToast" role="status" aria-live="polite"></div>
 
   <script src="app.js"></script>
 </body>
